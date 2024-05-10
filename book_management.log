@@ -1,0 +1,55 @@
+2024-05-10 00:21:52,369 - INFO - admin added a new book 'die' with ISBN: 1.
+2024-05-10 00:22:07,477 - INFO - admin viewed all books.
+2024-05-10 00:27:07,923 - INFO - admin viewed all books.
+2024-05-10 14:20:56,426 - INFO - admin added a new book 'die' with ISBN: 1.
+2024-05-10 14:22:12,678 - INFO - admin added a new book 'die' with ISBN: 1.
+2024-05-10 14:22:21,082 - INFO - admin viewed all books.
+2024-05-10 14:53:33,549 - INFO - leroy added a new book 'die' with ISBN: 1.
+2024-05-10 14:53:41,886 - INFO - leroy viewed all books.
+2024-05-10 15:56:28,813 - INFO - leroy added a new book 'die' with ISBN: 1.
+2024-05-10 16:01:48,012 - INFO - admin viewed all books.
+2024-05-10 16:02:07,803 - INFO - admin added a new book 'die' with ISBN: 1.
+2024-05-10 16:02:56,413 - INFO - admin added a new book 'live' with ISBN: 2.
+2024-05-10 16:02:57,659 - INFO - admin viewed all books.
+2024-05-10 16:06:15,504 - INFO - lala added a new book 'die' with ISBN: 1.
+2024-05-10 16:11:05,065 - INFO - admin viewed all books.
+2024-05-10 16:11:53,510 - INFO - admin added a new book 'die' with ISBN: 4.
+2024-05-10 16:12:28,341 - INFO - admin updated book with ISBN: 4.
+2024-05-10 16:12:31,198 - INFO - admin viewed all books.
+2024-05-10 16:15:32,249 - INFO - admin added a new book 'w' with ISBN: 12.
+2024-05-10 16:16:17,275 - INFO - admin added a new book 'e' with ISBN: 12.
+2024-05-10 16:16:36,989 - INFO - admin viewed all books.
+2024-05-10 16:20:26,774 - INFO - admin added a new book 'e' with ISBN: 1.
+2024-05-10 16:22:28,053 - INFO - admin viewed all books.
+2024-05-10 16:22:56,061 - INFO - admin added a new book 'ew' with ISBN: 9.
+2024-05-10 16:23:00,125 - INFO - admin viewed all books.
+2024-05-10 16:27:18,573 - INFO - admin added a new book 'w' with ISBN: 1.
+2024-05-10 16:29:32,576 - INFO - admin added a new book 'eee' with ISBN: 56.
+2024-05-10 16:30:15,885 - INFO - admin deleted book with ISBN: 56.
+2024-05-10 16:30:19,325 - INFO - admin viewed all books.
+2024-05-10 16:31:05,814 - INFO - admin added a new book 'live' with ISBN: 78.
+2024-05-10 16:31:08,438 - INFO - admin viewed all books.
+2024-05-10 16:31:29,175 - INFO - admin sorted books by publisher.
+2024-05-10 16:31:39,648 - INFO - admin sorted books by number of copies.
+2024-05-10 16:35:46,087 - INFO - lala viewed all books.
+2024-05-10 16:54:08,176 - INFO - q added a new book 'hello' with ISBN: 1.
+2024-05-10 16:54:11,737 - INFO - q viewed all books.
+2024-05-10 16:54:35,760 - INFO - admin viewed all books.
+2024-05-10 16:55:10,872 - INFO - librarian viewed all books.
+2024-05-10 18:27:29,073 - INFO - admin added a new book 'w' with ISBN: 1.
+2024-05-10 18:27:44,773 - INFO - admin added a new book 'kkkk' with ISBN: 3.
+2024-05-10 18:27:59,660 - INFO - admin sorted books by publisher.
+2024-05-10 18:35:48,061 - INFO - admin added a new book 'w' with ISBN: 1.
+2024-05-10 18:35:56,952 - INFO - admin added a new book 'f' with ISBN: 45.
+2024-05-10 18:36:00,565 - INFO - admin sorted books by publisher.
+2024-05-10 18:49:57,758 - INFO - lala added a new book 'w' with ISBN: 3.
+2024-05-10 18:50:49,576 - INFO - lala added a new book 'r' with ISBN: 90.
+2024-05-10 18:50:54,023 - INFO - lala sorted books by number of copies.
+2024-05-10 18:53:24,188 - INFO - lala added a new book 'ckck' with ISBN: 7.
+2024-05-10 18:53:25,902 - INFO - lala sorted books by number of copies.
+2024-05-10 18:59:46,284 - INFO - admin added a new book 'e' with ISBN: 2.
+2024-05-10 18:59:57,297 - INFO - admin added a new book 'd' with ISBN: 66.
+2024-05-10 18:59:58,503 - INFO - admin sorted books by number of copies.
+2024-05-10 20:30:59,140 - INFO - lala added a new book 'w' with ISBN: 1.
+2024-05-10 22:14:13,923 - INFO - admin viewed all books.
+2024-05-10 22:15:42,408 - INFO - librarian sorted books by number of copies.
