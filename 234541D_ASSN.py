@@ -21,7 +21,8 @@ class User:
 # they can't as they don't have permissions to do it.
 users = [
     User("admin", "admin123", "admin"), #a means admin
-    User("librarian", "librarian123", "librarian") #l means librarian
+    User("librarian", "librarian123", "librarian"), #l means librarian
+    User("customer", "customer123", "customer")
 ]
 
 
@@ -51,10 +52,10 @@ def create_account():
 
             password = input("Enter a password: ")
 
-            role = input("Enter a role (admin / librarian): ").lower()
+            role = input("Enter a role (admin / librarian / customer): ").lower()
             # Check if the role is valid
-            if role not in ["admin", "librarian"]:
-                raise ValueError("Invalid role. Please enter 'a' which means admin or 'l' which means librarian.")
+            if role not in ["admin", "librarian", "customer"]:
+                raise ValueError("Invalid role. Please enter 'a' which means admin or 'l' which means librarian or 'c' which means customer.")
             user = User(username, password, role) # getting from the class meaning
             users.append(user) # for each time user creates an account, this users array will be appended
 
@@ -160,7 +161,7 @@ def display_all_books(user):
     # typically used when the user wants to view all the books in the system, such as when an admin or
     # ibrarian accesses the system.
 
-    if is_admin(user) or user.role == "librarian": #check if only admin or librarian role can access
+    if is_admin(user) or user.role == "librarian" or user.role == "customer": #check if only admin or librarian role can access
         for k, v in booklist.items(): # k = key, v = value
             print(
                 f' ISBN: {k} \n Title: {v.get_title()} \n Publisher: {v.get_publisher()} \n Language: {v.get_language()}\n Number of Copies: {v.get_noOfCopies()}\n Availability: {v.get_availability()}\n Author: {v.get_author()}\n Genre: {v.get_genre()}\n\n')
@@ -345,11 +346,12 @@ def search_book_by_isbn(isbn):
                 return
         print("Book not found.")
 
-def search_book_by_title(title):
+def search_book_by_title(user, title):
     """
     Searches for a book by title.
 
     Args:
+        user (User object): The user object.
         title (str): The title of the book to be searched.
     """
     with shelve.open('book_management_db') as db:
@@ -357,9 +359,10 @@ def search_book_by_title(title):
         for book in booklist.values():
             if book.get_title().lower() == title.lower():
                 print(
-                    f'ISBN: {book.get_isbn()} | Title: {book.get_title()} | Publisher: {book.get_publisher()} | Language: {book.get_language()} | Number of Copies: {book.get_noOfCopies()} | Availability: {book.get_availability()} | Author: {book.get_author()} | Genre: {book.get_genre()}')
+                    f'ISBN: {book.get_isbn()}\n Title: {book.get_title()}\n Publisher: {book.get_publisher()}\n Language: {book.get_language()}\n Number of Copies: {book.get_noOfCopies()}\n Availability: {book.get_availability()}\n Author: {book.get_author()}\n Genre: {book.get_genre()}')
                 return
         print("Book not found.")
+
 
 def sort_noOfCopies(user):
     def get_noOfCopies(book):
@@ -408,6 +411,47 @@ def print_book_info(book):
 
 
 
+def borrow_book(user, isbn):
+    """
+    Allows a customer to borrow a book if its availability is 'Yes' and number of copies is greater than 0.
+
+    Args:
+        user (User object): The user object.
+        isbn (int): The ISBN of the book to be borrowed.
+    """
+    try:
+        if user.role != "customer":
+            raise PermissionError("Only customers can borrow books.")
+
+        if isbn not in booklist:
+            raise ValueError("Book not found.")
+
+        book = booklist[isbn]
+        if book.get_availability() == "No":
+            print("This book is not available for borrowing.")
+            return
+
+        if book.get_noOfCopies() == 0:
+            print("This book is out of stock.")
+            return
+
+        # Reduce the number of copies available
+        book._noOfCopies -= 1
+        if book.get_noOfCopies() == 0:
+            book._availability = False  # If no copies are available, set availability to False
+
+        # Update the booklist in the database
+        with shelve.open('book_management_db') as db:
+            db['books'] = booklist
+
+        print("Book borrowed successfully.")
+        logging.info(f"{user.username} borrowed book with ISBN: {isbn}.")
+    except (PermissionError, ValueError) as e:
+        print(e)
+
+
+
+
 # Main loop
 while True:
 
@@ -430,7 +474,7 @@ while True:
         if user:
             print(f"Welcome, {user.username}!")
             while True:
-                if is_admin(user):
+                if user.role == "admin":
                     print("\nInput 1 to display all books \n"
                           "Input 2 to add a new book record \n"
                           "Input 3 to update a book record \n"
@@ -440,7 +484,6 @@ while True:
                           "Input 7 to log out \n"
                           )
                     typeInput = input("\nEnter your input: ")
-
 
                     # Input validation
                     if typeInput not in ["1", "2", "3", "4", "5", "6", "7"]:
@@ -469,6 +512,10 @@ while True:
                                 continue
 
                             noOfCopies = int(input("Enter number of copies: "))
+                            while noOfCopies < 0:
+                                #print("must be a value 0 or more.")
+                                noOfCopies = int(input("Enter number of copies (value more 0 or more): "))
+
 
                             availability = input("Enter availability (Y/N): ").upper() == "Y"
                             if availability == 'B':
@@ -505,6 +552,9 @@ while True:
                                 continue
 
                             new_noOfCopies = int(input("Enter new number of copies: "))
+                            while new_noOfCopies < 0:
+                                #print("must be a value 0 or more.")
+                                new_noOfCopies = int(input("Enter number of copies (value more 0 or more): "))
 
                             new_availability = input("Enter new availability (Y/N): ").upper() == "Y"
                             if new_availability == 'B':
@@ -538,11 +588,14 @@ while True:
                         print("Logged Out")
                         user = None  # Reset user
                         break
-                else:
+
+                elif user.role == "librarian":
+                    # Librarian options
                     print("\nInput 1 to display all books \n"
                           "Input 2 to sort books by publisher \n"
                           "Input 3 to sort books by number of copies \n"
-                          "Input 4 to log out \n")
+                          "Input 4 to log out \n"
+                          )
                     typeInput = input("\nEnter your input: ")
 
                     # Input validation
@@ -556,6 +609,38 @@ while True:
                         sort_book_publisher(user)
                     elif typeInput == "3":
                         sort_noOfCopies(user)
+                    elif typeInput == "4":
+                        # Logout
+                        print("Logged Out")
+                        user = None  # Reset user
+                        break
+
+
+               #customer
+                elif user.role == "customer":
+                    print("\nInput 1 to display all books \n"
+                          "Input 2 to search for a book by title \n"
+                          "Input 3 to borrow a book \n"
+                          "Input 4 to log out \n")
+                    typeInput = input("\nEnter your input: ")
+
+                    # Input validation
+                    if typeInput not in ["1", "2", "3", "4"]:
+                        print("Invalid input. Please try again.")
+                        continue
+
+                    if typeInput == "1":
+                        display_all_books(user)
+                    elif typeInput == "2":
+                        search_title = input("Enter the title of the book you want to search for: ")
+                        search_book_by_title(user, search_title)
+                    elif typeInput == "3":
+                        try:
+                            print("Input 'B' to go back to main page")
+                            isbn = int(input("Enter the ISBN of the book you want to borrow: "))
+                            borrow_book(user, isbn)
+                        except ValueError:
+                            print("Invalid input. Please enter a valid number for ISBN.")
                     elif typeInput == "4":
                         print("Logged Out")
                         user = None  # Reset user

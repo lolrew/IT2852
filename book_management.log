@@ -76,3 +76,33 @@
 2024-05-20 23:03:55,375 - INFO - admin sorted books by number of copies.
 2024-05-20 23:06:05,027 - INFO - lala sorted books by publisher.
 2024-05-20 23:06:09,629 - INFO - lala sorted books by number of copies.
+2024-05-29 20:44:45,418 - INFO - customer viewed all books.
+2024-05-29 20:45:00,662 - INFO - customer borrowed book with ISBN: 2.
+2024-05-29 20:45:04,138 - INFO - customer viewed all books.
+2024-05-29 21:10:18,588 - INFO - customer viewed all books.
+2024-05-29 21:10:25,867 - INFO - customer searched for books with title containing 'go'.
+2024-05-29 21:27:37,943 - INFO - customer viewed all books.
+2024-05-29 22:37:04,243 - INFO - customer viewed all books.
+2024-05-29 22:43:33,019 - INFO - customer viewed all books.
+2024-05-29 22:45:02,803 - INFO - customer viewed all books.
+2024-05-29 22:49:53,874 - INFO - admin added a new book 'joy' with ISBN: 30.
+2024-05-29 22:51:46,012 - INFO - admin added a new book 'midget' with ISBN: 50.
+2024-05-29 22:53:02,840 - INFO - customer viewed all books.
+2024-05-29 22:56:23,236 - INFO - customer borrowed book with ISBN: 30.
+2024-05-29 22:56:28,158 - INFO - customer viewed all books.
+2024-05-29 22:57:09,333 - INFO - customer borrowed book with ISBN: 30.
+2024-05-29 22:57:13,222 - INFO - customer viewed all books.
+2024-05-29 22:59:44,039 - INFO - admin viewed all books.
+2024-05-29 23:01:08,080 - INFO - admin updated book with ISBN: 30.
+2024-05-29 23:01:11,446 - INFO - admin viewed all books.
+2024-05-29 23:01:37,002 - INFO - admin viewed all books.
+2024-05-29 23:02:21,333 - INFO - admin updated book with ISBN: 30.
+2024-05-29 23:51:26,262 - INFO - admin viewed all books.
+2024-05-29 23:52:20,924 - INFO - admin added a new book 'sleepy' with ISBN: 100.
+2024-05-29 23:52:22,248 - INFO - admin viewed all books.
+2024-05-29 23:55:05,037 - INFO - admin viewed all books.
+2024-05-29 23:56:19,318 - INFO - admin added a new book 'angry' with ISBN: 40.
+2024-05-29 23:56:20,871 - INFO - admin viewed all books.
+2024-05-30 00:22:02,617 - INFO - librarian viewed all books.
+2024-05-30 00:22:09,424 - INFO - librarian sorted books by publisher.
+2024-05-30 00:22:20,422 - INFO - librarian sorted books by number of copies.
