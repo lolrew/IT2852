@@ -53,3 +53,26 @@
 2024-05-10 20:30:59,140 - INFO - lala added a new book 'w' with ISBN: 1.
 2024-05-10 22:14:13,923 - INFO - admin viewed all books.
 2024-05-10 22:15:42,408 - INFO - librarian sorted books by number of copies.
+2024-05-20 21:05:46,305 - INFO - admin added a new book 'wet' with ISBN: 1.
+2024-05-20 21:06:14,119 - INFO - admin viewed all books.
+2024-05-20 21:40:33,975 - INFO - admin added a new book 'wet' with ISBN: 1.
+2024-05-20 21:40:36,587 - INFO - admin viewed all books.
+2024-05-20 21:41:43,287 - INFO - admin viewed all books.
+2024-05-20 21:45:42,134 - INFO - admin added a new book 'wet' with ISBN: 2.
+2024-05-20 21:45:43,753 - INFO - admin viewed all books.
+2024-05-20 21:46:01,580 - INFO - admin viewed all books.
+2024-05-20 21:46:43,368 - INFO - admin viewed all books.
+2024-05-20 21:56:24,188 - INFO - admin added a new book 'wet' with ISBN: 1.
+2024-05-20 21:56:27,134 - INFO - admin viewed all books.
+2024-05-20 21:56:47,103 - INFO - admin viewed all books.
+2024-05-20 22:32:18,217 - INFO - admin viewed all books.
+2024-05-20 22:32:57,649 - INFO - admin added a new book 'go' with ISBN: 2.
+2024-05-20 22:32:59,304 - INFO - admin viewed all books.
+2024-05-20 22:33:25,932 - INFO - admin viewed all books.
+2024-05-20 22:34:22,386 - INFO - librarian viewed all books.
+2024-05-20 22:57:50,072 - INFO - librarian sorted books by publisher.
+2024-05-20 23:03:20,177 - INFO - admin viewed all books.
+2024-05-20 23:03:49,441 - INFO - admin sorted books by publisher.
+2024-05-20 23:03:55,375 - INFO - admin sorted books by number of copies.
+2024-05-20 23:06:05,027 - INFO - lala sorted books by publisher.
+2024-05-20 23:06:09,629 - INFO - lala sorted books by number of copies.

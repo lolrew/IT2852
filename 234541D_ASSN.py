@@ -1,5 +1,5 @@
 import logging
-
+import shelve
 # Configure logging
 #this uses book_management.log to track all the logs such as adding and viewing
 #and time and date are also recorded
@@ -57,6 +57,11 @@ def create_account():
                 raise ValueError("Invalid role. Please enter 'a' which means admin or 'l' which means librarian.")
             user = User(username, password, role) # getting from the class meaning
             users.append(user) # for each time user creates an account, this users array will be appended
+
+            #Save the new user to shelve
+            with shelve.open('book_management_db') as db:
+                db['users'] = users
+
             print("Account created successfully.")
             return user
         except ValueError as ve:
@@ -91,7 +96,6 @@ def is_admin(user):
         bool: True if the user is an admin, otherwise False.
     """
     return user.role == "admin"
-
 
 class Book:
     # constructor
@@ -132,6 +136,16 @@ class Book:
     def get_genre(self):
         return self._genre
 
+# Initialize shelve for storing user and book data
+with shelve.open('book_management_db') as db:
+    if 'users' not in db:
+        db['users'] = users
+    if 'books' not in db:    # Use 'books' for consistency
+        db['books'] = {}
+
+    # Load user and book data
+    users = db['users']
+    booklist = db['books']
 
 def display_all_books(user):
     """
@@ -149,13 +163,11 @@ def display_all_books(user):
     if is_admin(user) or user.role == "librarian": #check if only admin or librarian role can access
         for k, v in booklist.items(): # k = key, v = value
             print(
-                f' ISBN: {k} \n Title: {v.get_title()} \n Publisher: {v.get_publisher()} \n Language: {v.get_language()}\n Number of Copies: {v.get_noOfCopies()}\n Availability: {v.get_availability()} Author: {v.get_author()}\n Genre: {v.get_genre()}\n\n')
+                f' ISBN: {k} \n Title: {v.get_title()} \n Publisher: {v.get_publisher()} \n Language: {v.get_language()}\n Number of Copies: {v.get_noOfCopies()}\n Availability: {v.get_availability()}\n Author: {v.get_author()}\n Genre: {v.get_genre()}\n\n')
         logging.info(f"{user.username} viewed all books.") #goes back to the book_management.log and display the info there.
     else:
         print("Unauthorized access.")
 
-
-booklist = {}
 
 
 def add_new_book(user, isbn, title, publisher, language, noOfCopies, availability, author, genre):
@@ -177,15 +189,20 @@ def add_new_book(user, isbn, title, publisher, language, noOfCopies, availabilit
         if not is_admin(user):
             raise PermissionError("Unauthorized access.")
 
-        # this part of the code checks if isbn has been repeated or the same isbn used for different books
-        if any(book.get_isbn() == isbn for book in booklist.values()):
+        if isbn in booklist:
             raise ValueError("ISBN must be unique.")
-        if any(book.get_title() == title and book.get_isbn() != isbn for book in booklist.values()):
-            raise ValueError("ISBN already exists for the same book title.")
 
-        myBook = Book(isbn, title, publisher, language, noOfCopies, availability, author, genre)
-        booklist[isbn] = myBook # isbn is the primary key : other book record values
-        print("Book added successfully.")
+        for book in booklist.values():
+            if book.get_title() == title:
+                raise ValueError("ISBN already exist for the same book title.")
+        myBook = Book(isbn, title, publisher, language,noOfCopies, availability, author, genre)
+        booklist[isbn] = myBook
+
+        # Save the updated booklist to the shelve database
+        with shelve.open('book_management_db') as db:
+            db['books'] = booklist
+
+        print('Book added successfully.')
         logging.info(f"{user.username} added a new book '{title}' with ISBN: {isbn}.")
     except (PermissionError, ValueError) as e:
         print(e)
@@ -237,18 +254,22 @@ def delete_book(user, isbn):
         isbn (int): The ISBN of the book to be deleted.
     """
     try:
-        if is_admin(user):
-            if isbn in booklist:
-                del booklist[isbn]
-                print("Book deleted successfully.")
-                logging.info(f"{user.username} deleted book with ISBN: {isbn}.")
-            else:
-                raise ValueError("Book not found.")
-        else:
+        if not is_admin(user):
             raise PermissionError("Unauthorized access.")
+
+        if isbn not in booklist:
+            raise ValueError("Book not found.")
+
+        del booklist[isbn]
+
+        # Save the updated booklist to the shelve database
+        with shelve.open('book_management_db') as db:
+            db['books'] = booklist
+
+        print('Books deleted successfully')
+        logging.info(f"{user.username} deleted book with ISBN: {isbn}.")
     except (ValueError, PermissionError) as e:
         print(e)
-
 
 def sort_book_publisher(user):
     """
@@ -257,9 +278,23 @@ def sort_book_publisher(user):
     Args:
         user (User object): The user object.
     """
+
+    def get_publisher(book):
+        return book.get_publisher()
+
     try:
         if is_admin(user) or user.role == "librarian":
-            books = list(booklist.values())
+            with shelve.open('book_management_db') as db:
+                booklist = db.get('books', {})
+                books_by_publisher = sorted(booklist.values(), key=get_publisher)
+                print("Books sorted by publisher:")
+                for book in books_by_publisher:
+                    print(f'ISBN: {book.get_isbn()} | Title: {book.get_title()} | Publisher: {book.get_publisher()} | Language: {book.get_language()} | Number of Copies: {book.get_noOfCopies()} | Availability: {book.get_availability()} | Author: {book.get_author()} | Genre: {book.get_genre()}')
+                logging.info(f"{user.username} sorted books by publisher.")
+        else:
+            raise PermissionError("Unauthorized access.")
+    except PermissionError as e:
+        print(e)
 
             # n: Represents the total number of elements in the list to be sorted.
             #Helps determine the length of the list and the number of iterations needed to sort it.
@@ -273,7 +308,7 @@ def sort_book_publisher(user):
             # Represents the current position within the unsorted portion of the list.
             # It helps compare adjacent elements and perform swapping if necessary during each
             # iteration of the inner loop.
-
+"""
             n = len(books)
             for i in range(n):
                 swapped = False
@@ -292,38 +327,65 @@ def sort_book_publisher(user):
         else:
             raise PermissionError("Unauthorized access.")
     except PermissionError as pe:
-        print(pe)
+        print(pe)"""
 
-
-def sort_noOfCopies(user):
+def search_book_by_isbn(isbn):
     """
-    Sorts books by number of copies if the user is authorized.
+    Searches for a book by ISBN.
 
     Args:
-        user (User object): The user object.
+        isbn (int): The ISBN of the book to be searched.
     """
+    with shelve.open('book_management_db') as db:
+        booklist = db.get('books', {})
+        for book in booklist.values():
+            if book.get_isbn() == isbn:
+                print(
+                    f'ISBN: {book.get_isbn()} | Title: {book.get_title()} | Publisher: {book.get_publisher()} | Language: {book.get_language()} | Number of Copies: {book.get_noOfCopies()} | Availability: {book.get_availability()} | Author: {book.get_author()} | Genre: {book.get_genre()}')
+                return
+        print("Book not found.")
+
+def search_book_by_title(title):
+    """
+    Searches for a book by title.
+
+    Args:
+        title (str): The title of the book to be searched.
+    """
+    with shelve.open('book_management_db') as db:
+        booklist = db.get('books', {})
+        for book in booklist.values():
+            if book.get_title().lower() == title.lower():
+                print(
+                    f'ISBN: {book.get_isbn()} | Title: {book.get_title()} | Publisher: {book.get_publisher()} | Language: {book.get_language()} | Number of Copies: {book.get_noOfCopies()} | Availability: {book.get_availability()} | Author: {book.get_author()} | Genre: {book.get_genre()}')
+                return
+        print("Book not found.")
+
+def sort_noOfCopies(user):
+    def get_noOfCopies(book):
+        return book.get_noOfCopies()
+
     try:
         if is_admin(user) or user.role == "librarian":
-            books = list(booklist.values())
-
-            # Perform insertion sort
-            for i in range(1, len(books)):
-                current = books[i]
-                j = i - 1
-                while j >= 0 and books[j].get_noOfCopies() < current.get_noOfCopies():
-                    books[j + 1] = books[j]
-                    j -= 1
-                books[j + 1] = current
-
-            # Print sorted books
-            for book in books:
-                print_book_info(book)
-
-            logging.info(f"{user.username} sorted books by number of copies.")
+            with shelve.open('book_management_db') as db:
+                booklist = db.get('books', {}).values()
+                books_by_noOfCopies = sorted(booklist, key=get_noOfCopies, reverse=True)
+                print("Books sorted by number of copies:")
+                for book in books_by_noOfCopies:
+                    print(
+                        f'ISBN: {book.get_isbn()} | Title: {book.get_title()} | Publisher: {book.get_publisher()} | Language: {book.get_language()} '
+                        f'| Number of Copies: {book.get_noOfCopies()} | Availability: {book.get_availability()} | Author: {book.get_author()} '
+                        f'| Genre: {book.get_genre()}')
+                logging.info(f"{user.username} sorted books by number of copies.")
         else:
             raise PermissionError("Unauthorized access.")
-    except PermissionError as pe:
-        print(pe)
+    except PermissionError as e:
+        print(e)
+
+
+
+def get_noOfCopies(book):
+    return book.noOfCopies
 
 
 def print_book_info(book):
