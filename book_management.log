@@ -110,3 +110,50 @@
 2024-05-30 08:42:43,572 - INFO - mommy borrowed book with ISBN: 40.
 2024-05-30 08:42:50,438 - INFO - mommy viewed all books.
 2024-05-30 09:11:54,567 - INFO - Password for user 'mommy' was reset by the admin.
+2024-06-01 20:30:43,114 - INFO - librarian viewed all books.
+2024-06-01 20:35:09,735 - INFO - librarian viewed all books.
+2024-06-01 20:40:58,159 - INFO - librarian added a new book 'lebron' with ISBN: 300.
+2024-06-01 20:41:20,743 - INFO - librarian viewed all books.
+2024-06-01 20:53:37,307 - INFO - librarian updated book with ISBN: 300.
+2024-06-01 20:54:58,693 - INFO - librarian viewed all books.
+2024-06-01 20:56:20,193 - INFO - librarian updated book with ISBN: 300.
+2024-06-01 20:56:21,369 - INFO - librarian viewed all books.
+2024-06-01 20:56:42,662 - INFO - librarian viewed all books.
+2024-06-01 20:57:04,831 - INFO - librarian updated book with ISBN: 300.
+2024-06-01 20:57:07,109 - INFO - librarian viewed all books.
+2024-06-01 20:57:28,250 - INFO - librarian viewed all books.
+2024-06-01 20:59:47,252 - INFO - librarian deleted book with ISBN: 300.
+2024-06-01 20:59:51,112 - INFO - librarian viewed all books.
+2024-06-01 21:00:06,919 - INFO - librarian viewed all books.
+2024-06-01 21:16:20,897 - INFO - librarian sorted books by publisher.
+2024-06-01 21:16:55,458 - INFO - librarian sorted books by publisher.
+2024-06-01 21:45:36,367 - INFO - librarian sorted books by number of copies.
+2024-06-01 21:46:49,958 - INFO - librarian sorted books by number of copies.
+2024-06-01 21:47:10,447 - INFO - librarian sorted books by number of copies.
+2024-06-01 22:05:38,542 - INFO - librarian sorted books by number of copies.
+2024-06-01 22:07:03,286 - INFO - librarian sorted books by number of copies in descending order.
+2024-06-01 22:08:11,975 - INFO - librarian updated book with ISBN: 30.
+2024-06-01 22:08:15,737 - INFO - librarian sorted books by number of copies in descending order.
+2024-06-01 22:09:01,342 - INFO - librarian sorted books by number of copies in descending order.
+2024-06-01 22:15:41,266 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:16:27,058 - INFO - customer borrowed book with ISBN: 30.
+2024-06-01 22:17:03,836 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:17:30,679 - INFO - customer borrowed book with ISBN: 30.
+2024-06-01 22:17:52,247 - INFO - customer borrowed book with ISBN: 40.
+2024-06-01 22:18:12,722 - INFO - customer borrowed book with ISBN: 40.
+2024-06-01 22:18:19,438 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:24:36,004 - INFO - customer viewed all books.
+2024-06-01 22:24:54,521 - INFO - customer borrowed 4 copies of book with ISBN: 40.
+2024-06-01 22:24:58,507 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:25:30,597 - INFO - customer viewed all books.
+2024-06-01 22:26:23,817 - INFO - admin sorted books by number of copies in descending order.
+2024-06-01 22:27:01,127 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:27:29,804 - INFO - customer borrowed 6 copies of book with ISBN: 100.
+2024-06-01 22:27:41,019 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:28:03,817 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:42:54,074 - INFO - librarian sorted books by publisher in ascending order.
+2024-06-01 22:44:37,982 - INFO - admin sorted books by publisher in ascending order.
+2024-06-01 22:45:55,999 - INFO - admin viewed all books.
+2024-06-01 22:47:37,111 - INFO - admin sorted books by publisher in ascending order.
+2024-06-01 23:29:45,378 - INFO - customer borrowed 88 copies of book with ISBN: 30.
+2024-06-01 23:29:48,801 - INFO - customer viewed all books.

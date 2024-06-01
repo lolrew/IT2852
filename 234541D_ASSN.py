@@ -139,6 +139,14 @@ class Book:
         return self._genre
 
 # Initialize shelve for storing user and book data
+# with shelve.open('book_management_db') as db: Opens a shelve database file named 'book_management_db'. The with statement ensures that the database is properly closed after the operations are completed.
+
+# if 'users' not in db: Checks if the 'users' key is not already present in the database.
+# db['users'] = users: If the 'users' key is missing, it initializes it with the value of users, which should be a predefined variable containing user data.
+
+# if 'books' not in db: Checks if the 'books' key is not already present in the database.
+# db['books'] = {}: If the 'books' key is missing, it initializes it with an empty dictionary to store book data.
+
 with shelve.open('book_management_db') as db:
     if 'users' not in db:
         db['users'] = users
@@ -160,10 +168,10 @@ def display_all_books(user):
     #This function is responsible for displaying all the information about all the books in the system.
     # It iterates over the booklist and prints detailed information about each book. This function is
     # typically used when the user wants to view all the books in the system, such as when an admin or
-    # ibrarian accesses the system.
+    # ibrarian or customer accesses the system.
 
-    if is_admin(user) or user.role == "librarian" or user.role == "customer": #check if only admin or librarian role can access
-        for k, v in booklist.items(): # k = key, v = value
+    if is_admin(user) or user.role == "librarian" or user.role == "customer": #check if only admin or librarian or customer role can access
+        for k, v in booklist.items(): # k = key, v = value and .items means getting both key and value pairs
             print(
                 f' ISBN: {k} \n Title: {v.get_title()} \n Publisher: {v.get_publisher()} \n Language: {v.get_language()}\n Number of Copies: {v.get_noOfCopies()}\n Availability: {v.get_availability()}\n Author: {v.get_author()}\n Genre: {v.get_genre()}\n\n')
         logging.info(f"{user.username} viewed all books.") #goes back to the book_management.log and display the info there.
@@ -188,7 +196,7 @@ def add_new_book(user, isbn, title, publisher, language, noOfCopies, availabilit
         genre (str): The genre of the book.
     """
     try:
-        if not is_admin(user):
+        if not (is_admin(user) or user.role == "librarian"):
             raise PermissionError("Unauthorized access.")
 
         if isbn in booklist:
@@ -197,6 +205,7 @@ def add_new_book(user, isbn, title, publisher, language, noOfCopies, availabilit
         for book in booklist.values():
             if book.get_title() == title:
                 raise ValueError("ISBN already exist for the same book title.")
+
         myBook = Book(isbn, title, publisher, language,noOfCopies, availability, author, genre)
         booklist[isbn] = myBook
 
@@ -227,9 +236,10 @@ def update_book(user, isbn, new_title, new_publisher, new_language, new_noOfCopi
         new_genre (str): The new genre of the book.
     """
     try:
-        if is_admin(user):
+        if is_admin(user) or user.role == "librarian":
             if isbn not in booklist:
                 print("Book not found.")
+
             elif isbn in booklist:
                 book = booklist[isbn]
                 book._title = new_title
@@ -239,6 +249,11 @@ def update_book(user, isbn, new_title, new_publisher, new_language, new_noOfCopi
                 book._availability = new_availability
                 book._author = new_author
                 book._genre = new_genre
+
+            # Save the updated booklist to the shelve database
+            with shelve.open('book_management_db') as db:
+                db['books'] = booklist
+
                 print("Book updated successfully.")
                 logging.info(f"{user.username} updated book with ISBN: {isbn}.")
         else:
@@ -256,7 +271,7 @@ def delete_book(user, isbn):
         isbn (int): The ISBN of the book to be deleted.
     """
     try:
-        if not is_admin(user):
+        if not (is_admin(user) or user.role == "librarian"):
             raise PermissionError("Unauthorized access.")
 
         if isbn not in booklist:
@@ -273,6 +288,8 @@ def delete_book(user, isbn):
     except (ValueError, PermissionError) as e:
         print(e)
 
+
+# asc order using bubble sort
 def sort_book_publisher(user):
     """
     Sorts books by publisher if the user is authorized.
@@ -280,64 +297,51 @@ def sort_book_publisher(user):
     Args:
         user (User object): The user object.
     """
-
     def get_publisher(book):
         return book.get_publisher()
 
     try:
-        if is_admin(user) or user.role == "librarian":
+        # Check if the user is an admin, librarian, or customer
+        if is_admin(user) or user.role == "librarian" or user.role == "customer":
+
+            # Open the shelve database
             with shelve.open('book_management_db') as db:
                 booklist = db.get('books', {})
-                books_by_publisher = sorted(booklist.values(), key=get_publisher)
-                print("Books sorted by publisher:")
-                for book in books_by_publisher:
-                    print(f'ISBN: {book.get_isbn()} | Title: {book.get_title()} | Publisher: {book.get_publisher()} | Language: {book.get_language()} | Number of Copies: {book.get_noOfCopies()} | Availability: {book.get_availability()} | Author: {book.get_author()} | Genre: {book.get_genre()}')
-                logging.info(f"{user.username} sorted books by publisher.")
+
+                # Bubble Sort Algorithm in Ascending Order by Publisher
+                books = list(booklist.values())
+                n = len(books)
+                # Traverse through all elements in the list
+                # i represents the number of elements that have been already sorted at the end of the list after each iteration.
+                for i in range(n-1):
+                    # Last i elements are already sorted, so the inner loop can iterate over the unsorted elements
+                    # n is the total number of elements in the list.
+                    # i represents the number of elements that have been already sorted.
+                    # n-i gives the number of unsorted elements in the list at the beginning of each iteration of the outer loop.
+                    # n-i-1 represents the index of the last unsorted element in the current pass of the bubble sort. We subtract 1 because indexing in Python starts from 0.
+                    for j in range(0, n-i-1):
+                        # If the publisher of the current book is greater than the publisher of the next book, swap them
+                        if get_publisher(books[j]) > get_publisher(books[j+1]):
+                            books[j], books[j+1] = books[j+1], books[j]
+
+                print("Books sorted by publisher (Ascending Order):")
+                for book in books:
+                    print(f'ISBN: {book.get_isbn()}\n Title: {book.get_title()}\n Publisher: {book.get_publisher()}\n Language: {book.get_language()}\n Number of Copies: {book.get_noOfCopies()}\n Availability: {book.get_availability()}\n Author: {book.get_author()}\n Genre: {book.get_genre()}\n\n\n')
+
+                logging.info(f"{user.username} sorted books by publisher in ascending order.")
         else:
             raise PermissionError("Unauthorized access.")
     except PermissionError as e:
         print(e)
 
-            # n: Represents the total number of elements in the list to be sorted.
-            #Helps determine the length of the list and the number of iterations needed to sort it.
 
-            # i: Represents the current iteration of the outer loop. It ranges from 0 to n-1.
-            # Tracks the progress of the outer loop. After each iteration of the outer loop, the largest element moves
-            # to its correct position at the end of the list, so subsequent iterations can ignore the
-            # last i elements that are already sorted.
+"""def search_book_by_isbn(isbn):
+    
+    #Searches for a book by ISBN.
 
-            # j: Represents the index of the current element being considered within the inner loop. It ranges from 0 to n-i-1 in each iteration of the outer loop.
-            # Represents the current position within the unsorted portion of the list.
-            # It helps compare adjacent elements and perform swapping if necessary during each
-            # iteration of the inner loop.
-"""
-            n = len(books)
-            for i in range(n):
-                swapped = False
-                for j in range(0, n-i-1):
-                    publisher_j = books[j].get_publisher()
-                    publisher_j_plus_1 = books[j+1].get_publisher()
-                    if publisher_j > publisher_j_plus_1:
-                        # Swap books
-                        books[j], books[j+1] = books[j+1], books[j]
-                        swapped = True
-                if not swapped:
-                    break
-            for book in books:
-                print_book_info(book)
-            logging.info(f"{user.username} sorted books by publisher.")
-        else:
-            raise PermissionError("Unauthorized access.")
-    except PermissionError as pe:
-        print(pe)"""
-
-def search_book_by_isbn(isbn):
-    """
-    Searches for a book by ISBN.
-
-    Args:
-        isbn (int): The ISBN of the book to be searched.
-    """
+    #Args:
+        #isbn (int): The ISBN of the book to be searched.
+    
     with shelve.open('book_management_db') as db:
         booklist = db.get('books', {})
         for book in booklist.values():
@@ -345,7 +349,7 @@ def search_book_by_isbn(isbn):
                 print(
                     f'ISBN: {book.get_isbn()} | Title: {book.get_title()} | Publisher: {book.get_publisher()} | Language: {book.get_language()} | Number of Copies: {book.get_noOfCopies()} | Availability: {book.get_availability()} | Author: {book.get_author()} | Genre: {book.get_genre()}')
                 return
-        print("Book not found.")
+        print("Book not found.")"""
 
 def search_book_by_title(user, title):
     """
@@ -358,6 +362,13 @@ def search_book_by_title(user, title):
     with shelve.open('book_management_db') as db:
         booklist = db.get('books', {})
         for book in booklist.values():
+            # book.get_title().lower().
+            # This expression first calls the get_title() method on a book object to retrieve the title of the book (a string).
+            # Used when you want to convert the title of a specific book (retrieved from a database or object) to lowercase.
+
+            # title.lower().
+            # This expression assumes title is a variable storing a string (e.g., the title you are searching for).
+            # used to convert any string (such as a user input or a predefined title) to lowercase.
             if book.get_title().lower() == title.lower():
                 print(
                     f'ISBN: {book.get_isbn()}\n Title: {book.get_title()}\n Publisher: {book.get_publisher()}\n Language: {book.get_language()}\n Number of Copies: {book.get_noOfCopies()}\n Availability: {book.get_availability()}\n Author: {book.get_author()}\n Genre: {book.get_genre()}')
@@ -365,22 +376,40 @@ def search_book_by_title(user, title):
         print("Book not found.")
 
 
+#desc order using Insertion Sort
 def sort_noOfCopies(user):
+    # Defines an inner function get_noOfCopies(book) that extracts the number of copies of a book. This function will be used as the sorting key.
     def get_noOfCopies(book):
         return book.get_noOfCopies()
 
     try:
-        if is_admin(user) or user.role == "librarian":
+        if is_admin(user) or user.role == "librarian" or user.role == "customer":
             with shelve.open('book_management_db') as db:
-                booklist = db.get('books', {}).values()
-                books_by_noOfCopies = sorted(booklist, key=get_noOfCopies, reverse=True)
-                print("Books sorted by number of copies:")
-                for book in books_by_noOfCopies:
+                booklist = list(db.get('books', {}).values())
+
+                # Iterate through each element in the list, starting from the second element (index 1)
+                for i in range(1, len(booklist)):
+                    # Store the current book
+                    current_book = booklist[i]
+                    # Initialize an index 'j' to the element just before the current element
+                    j = i - 1
+                    # Compare the number of copies of the current book with the number of copies of each book
+                    # in the sorted subarray and shift elements to the right until finding the correct position
+                    while j >= 0 and get_noOfCopies(booklist[j]) < get_noOfCopies(current_book):
+                        # Shift the element to the right
+                        booklist[j + 1] = booklist[j]
+                        # Move to the previous element in the sorted subarray
+                        j -= 1
+                    # Place the current book in its correct position in the sorted subarray
+                    booklist[j + 1] = current_book
+
+                print("Books sorted by number of copies (Descending Order):")
+                for book in booklist:
                     print(
-                        f'ISBN: {book.get_isbn()} | Title: {book.get_title()} | Publisher: {book.get_publisher()} | Language: {book.get_language()} '
-                        f'| Number of Copies: {book.get_noOfCopies()} | Availability: {book.get_availability()} | Author: {book.get_author()} '
-                        f'| Genre: {book.get_genre()}')
-                logging.info(f"{user.username} sorted books by number of copies.")
+                        f'ISBN: {book.get_isbn()}\n Title: {book.get_title()}\n Publisher: {book.get_publisher()}\n Language: {book.get_language()} '
+                        f'\n Number of Copies: {book.get_noOfCopies()}\n Availability: {book.get_availability()}\n Author: {book.get_author()} '
+                        f'\n Genre: {book.get_genre()}\n\n\n')
+                logging.info(f"{user.username} sorted books by number of copies in descending order.")
         else:
             raise PermissionError("Unauthorized access.")
     except PermissionError as e:
@@ -436,8 +465,19 @@ def borrow_book(user, isbn):
             print("This book is out of stock.")
             return
 
+        # Prompt the user to input the number of copies to borrow
+        num_copies_to_borrow = int(input("Enter the number of copies you want to borrow: "))
+        if num_copies_to_borrow <= 0:
+            print("Invalid number of copies.")
+            return
+
+        # Check if the requested number of copies is available
+        if num_copies_to_borrow > book.get_noOfCopies():
+            print("Not enough copies available.")
+            return
+
         # Reduce the number of copies available
-        book._noOfCopies -= 1
+        book._noOfCopies -= num_copies_to_borrow
         if book.get_noOfCopies() == 0:
             book._availability = False  # If no copies are available, set availability to False
 
@@ -445,8 +485,8 @@ def borrow_book(user, isbn):
         with shelve.open('book_management_db') as db:
             db['books'] = booklist
 
-        print("Book borrowed successfully.")
-        logging.info(f"{user.username} borrowed book with ISBN: {isbn}.")
+        print("Books borrowed successfully.")
+        logging.info(f"{user.username} borrowed {num_copies_to_borrow} copies of book with ISBN: {isbn}.")
     except (PermissionError, ValueError) as e:
         print(e)
 
@@ -644,7 +684,9 @@ while True:
                         try:
                             print("Input 'B' to go back to main page")
 
-                            isbn = int(input("Enter ISBN: "))
+                            isbn = int(input("Enter ISBN or type '-1' to go back  to main page: "))
+                            if isbn == -1:
+                                continue
 
                             title = input("Enter book title: ")
                             if title == 'B':
@@ -740,12 +782,14 @@ while True:
                 elif user.role == "customer":
                     print("\nInput 1 to display all books \n"
                           "Input 2 to search for a book by title \n"
-                          "Input 3 to borrow a book \n"
-                          "Input 4 to log out \n")
+                          "Input 3 to sort book by publisher \n"
+                          "Input 4 to sort the book by number of copies \n"
+                          "Input 5 to borrow a book \n"
+                          "Input 6 to log out \n")
                     typeInput = input("\nEnter your input: ")
 
                     # Input validation
-                    if typeInput not in ["1", "2", "3", "4"]:
+                    if typeInput not in ["1", "2", "3", "4", "5", "6"]:
                         print("Invalid input. Please try again.")
                         continue
 
@@ -754,7 +798,14 @@ while True:
                     elif typeInput == "2":
                         search_title = input("Enter the title of the book you want to search for: ")
                         search_book_by_title(user, search_title)
+
                     elif typeInput == "3":
+                        sort_book_publisher(user)
+
+                    elif typeInput == "4":
+                        sort_noOfCopies(user)
+
+                    elif typeInput == "5":
                         try:
                             print("Input '-1' to go back to main page")
                             isbn = int(input("Enter the ISBN of the book you want to borrow: "))
@@ -765,7 +816,7 @@ while True:
 
                         except ValueError:
                             print("Invalid input. Please enter a valid number for ISBN.")
-                    elif typeInput == "4":
+                    elif typeInput == "6":
                         print("Logged Out")
                         user = None  # Reset user
                         break
