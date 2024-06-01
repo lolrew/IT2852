@@ -55,7 +55,8 @@ def create_account():
             role = input("Enter a role (admin / librarian / customer): ").lower()
             # Check if the role is valid
             if role not in ["admin", "librarian", "customer"]:
-                raise ValueError("Invalid role. Please enter 'a' which means admin or 'l' which means librarian or 'c' which means customer.")
+                raise ValueError("Invalid role. Please try again.")
+
             user = User(username, password, role) # getting from the class meaning
             users.append(user) # for each time user creates an account, this users array will be appended
 
@@ -449,6 +450,29 @@ def borrow_book(user, isbn):
     except (PermissionError, ValueError) as e:
         print(e)
 
+def view_all_users():
+    print("List of all users:")
+    for user in users:
+        print(f"Username: {user.username}, Role: {user.role}")
+
+
+def reset_password():
+    try:
+        username = input("Enter the username for which you want to reset the password: ")
+        for user in users:
+            if user.username == username:
+                new_password = input("Enter the new password: ")
+                user.password = new_password
+
+                with shelve.open('book_management_db') as db:
+                    db['users'] = users
+
+                print(f"Password for user '{username}' has been reset.")
+                logging.info(f"Password for user '{username}' was reset by the admin.")
+                return
+        print("Username not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 
 
@@ -481,12 +505,15 @@ while True:
                           "Input 4 to delete a book record \n"
                           "Input 5 to sort books by publisher \n"
                           "Input 6 to sort books by number of copies \n"
-                          "Input 7 to log out \n"
+                          "Input 7 to view all users \n"
+                          "Input 8 to reset user password \n"
+                          "Input 9 to log out \n"
+
                           )
                     typeInput = input("\nEnter your input: ")
 
                     # Input validation
-                    if typeInput not in ["1", "2", "3", "4", "5", "6", "7"]:
+                    if typeInput not in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
                         print("Invalid input. Please try again.")
                         continue
 
@@ -584,7 +611,11 @@ while True:
                         sort_book_publisher(user)
                     elif typeInput == "6":
                         sort_noOfCopies(user)
-                    elif typeInput == "7":
+                    elif typeInput == '7':
+                        view_all_users()
+                    elif typeInput == '8':
+                        reset_password()
+                    elif typeInput == "9":
                         print("Logged Out")
                         user = None  # Reset user
                         break
@@ -592,25 +623,114 @@ while True:
                 elif user.role == "librarian":
                     # Librarian options
                     print("\nInput 1 to display all books \n"
-                          "Input 2 to sort books by publisher \n"
-                          "Input 3 to sort books by number of copies \n"
-                          "Input 4 to log out \n"
+                          "Input 2 to add a new book record \n"
+                          "Input 3 to update a book record \n"
+                          "Input 4 to delete a book record \n"
+                          "Input 5 to sort books by publisher \n"
+                          "Input 6 to sort books by number of copies \n"
+                          "Input 7 to log out \n"
                           )
                     typeInput = input("\nEnter your input: ")
 
                     # Input validation
-                    if typeInput not in ["1", "2", "3", "4"]:
+                    if typeInput not in ["1", "2", "3", "4", "5", "6", "7"]:
                         print("Invalid input. Please try again.")
                         continue
 
                     if typeInput == "1":
                         display_all_books(user)
+
                     elif typeInput == "2":
-                        sort_book_publisher(user)
+                        try:
+                            print("Input 'B' to go back to main page")
+
+                            isbn = int(input("Enter ISBN: "))
+
+                            title = input("Enter book title: ")
+                            if title == 'B':
+                                continue
+
+                            publisher = input("Enter publisher: ")
+                            if publisher == 'B':
+                                continue
+
+                            language = input("Enter language: ")
+                            if language == 'B':
+                                continue
+
+                            noOfCopies = int(input("Enter number of copies: "))
+                            while noOfCopies < 0:
+                                # print("must be a value 0 or more.")
+                                noOfCopies = int(input("Enter number of copies (value more 0 or more): "))
+
+                            availability = input("Enter availability (Y/N): ").upper() == "Y"
+                            if availability == 'B':
+                                continue
+
+                            author = input("Enter author: ")
+                            if author == 'B':
+                                continue
+
+                            genre = input("Enter genre: ")
+                            if genre == 'B':
+                                continue
+
+                            add_new_book(user, isbn, title, publisher, language, noOfCopies, availability, author,
+                                         genre)
+                        except ValueError:
+                            print("Invalid input. Please enter a valid number for ISBN and number of copies.")
                     elif typeInput == "3":
-                        sort_noOfCopies(user)
+                        try:
+                            print("Input 'B' to go back main page")
+
+                            isbn = int(input("Enter ISBN of the book to update: "))
+
+                            new_title = input("Enter new title: ")
+                            if new_title == 'B':
+                                continue
+
+                            new_publisher = input("Enter new publisher: ")
+                            if new_publisher == 'B':
+                                continue
+
+                            new_language = input("Enter new language: ")
+                            if new_language == 'B':
+                                continue
+
+                            new_noOfCopies = int(input("Enter new number of copies: "))
+                            while new_noOfCopies < 0:
+                                # print("must be a value 0 or more.")
+                                new_noOfCopies = int(input("Enter number of copies (value more 0 or more): "))
+
+                            new_availability = input("Enter new availability (Y/N): ").upper() == "Y"
+                            if new_availability == 'B':
+                                continue
+
+                            new_author = input("Enter new author: ")
+                            if new_author == 'B':
+                                continue
+
+                            new_genre = input("Enter new genre: ")
+                            if new_genre == 'B':
+                                continue
+
+                            update_book(user, isbn, new_title, new_publisher, new_language, new_noOfCopies,
+                                        new_availability,
+                                        new_author, new_genre)
+                        except ValueError:
+                            print("Invalid input. Please enter a valid number for ISBN and number of copies.")
                     elif typeInput == "4":
-                        # Logout
+                        try:
+                            print("Input 'B' to go back to main page")
+                            isbn = int(input("Enter ISBN of the book to delete: "))
+                            delete_book(user, isbn)
+                        except ValueError:
+                            print("Invalid input. Please enter a valid number for ISBN.")
+                    elif typeInput == "5":
+                        sort_book_publisher(user)
+                    elif typeInput == "6":
+                        sort_noOfCopies(user)
+                    elif typeInput == "7":
                         print("Logged Out")
                         user = None  # Reset user
                         break
@@ -636,9 +756,13 @@ while True:
                         search_book_by_title(user, search_title)
                     elif typeInput == "3":
                         try:
-                            print("Input 'B' to go back to main page")
+                            print("Input '-1' to go back to main page")
                             isbn = int(input("Enter the ISBN of the book you want to borrow: "))
-                            borrow_book(user, isbn)
+                            if isbn == -1:
+                                continue
+                            else:
+                                borrow_book(user, isbn)
+
                         except ValueError:
                             print("Invalid input. Please enter a valid number for ISBN.")
                     elif typeInput == "4":

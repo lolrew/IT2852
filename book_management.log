@@ -106,3 +106,7 @@
 2024-05-30 00:22:02,617 - INFO - librarian viewed all books.
 2024-05-30 00:22:09,424 - INFO - librarian sorted books by publisher.
 2024-05-30 00:22:20,422 - INFO - librarian sorted books by number of copies.
+2024-05-30 08:40:59,318 - INFO - mommy viewed all books.
+2024-05-30 08:42:43,572 - INFO - mommy borrowed book with ISBN: 40.
+2024-05-30 08:42:50,438 - INFO - mommy viewed all books.
+2024-05-30 09:11:54,567 - INFO - Password for user 'mommy' was reset by the admin.
