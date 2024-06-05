@@ -232,3 +232,39 @@
 2024-06-04 22:29:20,025 - INFO - customer viewed all books.
 2024-06-04 22:32:15,895 - INFO - customer sorted books by publisher in ascending order.
 2024-06-04 22:32:20,491 - INFO - customer sorted books by number of copies in descending order.
+2024-06-05 08:38:35,321 - INFO - admin viewed all books.
+2024-06-05 08:39:35,309 - INFO - admin sorted books by publisher in ascending order.
+2024-06-05 08:39:51,894 - INFO - admin sorted books by number of copies in descending order.
+2024-06-05 08:44:42,160 - INFO - admin added a new book 'computers' with ISBN: 123.
+2024-06-05 08:45:33,188 - INFO - admin viewed all books.
+2024-06-05 08:47:32,132 - INFO - kiefer updated book with ISBN: 123.
+2024-06-05 09:22:19,412 - INFO - admin sorted books by publisher in ascending order.
+2024-06-05 09:25:10,394 - INFO - admin sorted books by publisher in ascending order.
+2024-06-05 09:25:14,844 - INFO - admin sorted books by number of copies in descending order.
+2024-06-05 09:26:01,334 - INFO - admin sorted books by number of copies in descending order.
+2024-06-05 09:26:48,154 - INFO - admin added a new book 'ronaldo' with ISBN: 7.
+2024-06-05 09:29:07,725 - INFO - librarian sorted books by publisher in ascending order.
+2024-06-05 09:29:10,634 - INFO - librarian sorted books by number of copies in descending order.
+2024-06-05 09:33:43,631 - INFO - admin viewed all books.
+2024-06-05 09:37:48,972 - INFO - admin viewed all books.
+2024-06-05 09:39:16,539 - INFO - admin sorted books by publisher in ascending order.
+2024-06-05 09:40:44,092 - INFO - admin sorted books by number of copies in descending order.
+2024-06-05 09:42:11,163 - INFO - librarian viewed all books.
+2024-06-05 09:42:25,554 - INFO - librarian sorted books by publisher in ascending order.
+2024-06-05 09:42:31,849 - INFO - librarian sorted books by number of copies in descending order.
+2024-06-05 09:43:30,743 - INFO - customer viewed all books.
+2024-06-05 09:46:49,358 - INFO - customer sorted books by publisher in ascending order.
+2024-06-05 09:48:01,847 - INFO - admin added a new book 'dumb' with ISBN: 78.
+2024-06-05 09:48:05,883 - INFO - admin viewed all books.
+2024-06-05 09:48:47,833 - INFO - Password for user 'kiefer' was reset by the admin.
+2024-06-05 09:49:42,608 - INFO - 
+-- Password for user 'kiefer' was reset by the admin. --
+2024-06-05 09:50:19,562 - INFO - Password for user 'kiefer' was reset by the admin.
+2024-06-05 09:50:42,174 - INFO - Password for user 'kiefer' was reset by the admin.
+2024-06-05 09:50:50,137 - INFO - admin viewed all books.
+2024-06-05 10:08:34,929 - INFO - admin viewed all books.
+2024-06-05 10:08:53,674 - INFO - admin sorted books by publisher in ascending order.
+2024-06-05 10:09:10,443 - INFO - admin sorted books by publisher in ascending order.
+2024-06-05 10:09:24,994 - INFO - admin sorted books by number of copies in descending order.
+2024-06-05 10:10:07,354 - INFO - customer borrowed 1 copies of book with ISBN: 40.
+2024-06-05 10:10:09,178 - INFO - customer viewed all books.
