@@ -268,3 +268,6 @@
 2024-06-05 10:09:24,994 - INFO - admin sorted books by number of copies in descending order.
 2024-06-05 10:10:07,354 - INFO - customer borrowed 1 copies of book with ISBN: 40.
 2024-06-05 10:10:09,178 - INFO - customer viewed all books.
+2024-06-05 10:31:06,608 - INFO - admin viewed all books.
+2024-06-05 12:06:04,397 - INFO - admin added a new book 'm' with ISBN: 1111.
+2024-06-05 12:06:07,914 - INFO - admin viewed all books.

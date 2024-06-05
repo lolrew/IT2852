@@ -640,6 +640,11 @@ while True:
                             if isbn == -1:
                                 continue
 
+                            # Validate ISBN
+                            elif len(str(isbn)) > 13:
+                                print("\n** ISBN must have a maximum of 13 digits. **")
+                                continue
+
                             title = input("Enter book title or type 'B' to go back to main menu: ")
                             if title == 'B':
                                 continue
@@ -677,6 +682,7 @@ while True:
                         except ValueError:
                             print(
                                 "\n** Invalid input. Please enter a valid number for ISBN and/or number of copies. **")
+                            #print("** ISBN must have a maximum of 13 digits. **\n")
 
                     elif typeInput == "3":
                         try:
@@ -782,6 +788,10 @@ while True:
                         try:
                             isbn = int(input("Enter ISBN or type '-1' to go back  to main page: "))
                             if isbn == -1:
+                                continue
+                            # Validate ISBN
+                            elif len(str(isbn)) > 13:
+                                print("** ISBN must have a maximum of 13 digits. **")
                                 continue
 
                             title = input("Enter book title or type 'B' to go back to main menu: ")
