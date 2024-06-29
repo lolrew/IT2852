@@ -1,0 +1,327 @@
+2024-05-10 00:21:52,369 - INFO - admin added a new book 'die' with ISBN: 1.
+2024-05-10 00:22:07,477 - INFO - admin viewed all books.
+2024-05-10 00:27:07,923 - INFO - admin viewed all books.
+2024-05-10 14:20:56,426 - INFO - admin added a new book 'die' with ISBN: 1.
+2024-05-10 14:22:12,678 - INFO - admin added a new book 'die' with ISBN: 1.
+2024-05-10 14:22:21,082 - INFO - admin viewed all books.
+2024-05-10 14:53:33,549 - INFO - leroy added a new book 'die' with ISBN: 1.
+2024-05-10 14:53:41,886 - INFO - leroy viewed all books.
+2024-05-10 15:56:28,813 - INFO - leroy added a new book 'die' with ISBN: 1.
+2024-05-10 16:01:48,012 - INFO - admin viewed all books.
+2024-05-10 16:02:07,803 - INFO - admin added a new book 'die' with ISBN: 1.
+2024-05-10 16:02:56,413 - INFO - admin added a new book 'live' with ISBN: 2.
+2024-05-10 16:02:57,659 - INFO - admin viewed all books.
+2024-05-10 16:06:15,504 - INFO - lala added a new book 'die' with ISBN: 1.
+2024-05-10 16:11:05,065 - INFO - admin viewed all books.
+2024-05-10 16:11:53,510 - INFO - admin added a new book 'die' with ISBN: 4.
+2024-05-10 16:12:28,341 - INFO - admin updated book with ISBN: 4.
+2024-05-10 16:12:31,198 - INFO - admin viewed all books.
+2024-05-10 16:15:32,249 - INFO - admin added a new book 'w' with ISBN: 12.
+2024-05-10 16:16:17,275 - INFO - admin added a new book 'e' with ISBN: 12.
+2024-05-10 16:16:36,989 - INFO - admin viewed all books.
+2024-05-10 16:20:26,774 - INFO - admin added a new book 'e' with ISBN: 1.
+2024-05-10 16:22:28,053 - INFO - admin viewed all books.
+2024-05-10 16:22:56,061 - INFO - admin added a new book 'ew' with ISBN: 9.
+2024-05-10 16:23:00,125 - INFO - admin viewed all books.
+2024-05-10 16:27:18,573 - INFO - admin added a new book 'w' with ISBN: 1.
+2024-05-10 16:29:32,576 - INFO - admin added a new book 'eee' with ISBN: 56.
+2024-05-10 16:30:15,885 - INFO - admin deleted book with ISBN: 56.
+2024-05-10 16:30:19,325 - INFO - admin viewed all books.
+2024-05-10 16:31:05,814 - INFO - admin added a new book 'live' with ISBN: 78.
+2024-05-10 16:31:08,438 - INFO - admin viewed all books.
+2024-05-10 16:31:29,175 - INFO - admin sorted books by publisher.
+2024-05-10 16:31:39,648 - INFO - admin sorted books by number of copies.
+2024-05-10 16:35:46,087 - INFO - lala viewed all books.
+2024-05-10 16:54:08,176 - INFO - q added a new book 'hello' with ISBN: 1.
+2024-05-10 16:54:11,737 - INFO - q viewed all books.
+2024-05-10 16:54:35,760 - INFO - admin viewed all books.
+2024-05-10 16:55:10,872 - INFO - librarian viewed all books.
+2024-05-10 18:27:29,073 - INFO - admin added a new book 'w' with ISBN: 1.
+2024-05-10 18:27:44,773 - INFO - admin added a new book 'kkkk' with ISBN: 3.
+2024-05-10 18:27:59,660 - INFO - admin sorted books by publisher.
+2024-05-10 18:35:48,061 - INFO - admin added a new book 'w' with ISBN: 1.
+2024-05-10 18:35:56,952 - INFO - admin added a new book 'f' with ISBN: 45.
+2024-05-10 18:36:00,565 - INFO - admin sorted books by publisher.
+2024-05-10 18:49:57,758 - INFO - lala added a new book 'w' with ISBN: 3.
+2024-05-10 18:50:49,576 - INFO - lala added a new book 'r' with ISBN: 90.
+2024-05-10 18:50:54,023 - INFO - lala sorted books by number of copies.
+2024-05-10 18:53:24,188 - INFO - lala added a new book 'ckck' with ISBN: 7.
+2024-05-10 18:53:25,902 - INFO - lala sorted books by number of copies.
+2024-05-10 18:59:46,284 - INFO - admin added a new book 'e' with ISBN: 2.
+2024-05-10 18:59:57,297 - INFO - admin added a new book 'd' with ISBN: 66.
+2024-05-10 18:59:58,503 - INFO - admin sorted books by number of copies.
+2024-05-10 20:30:59,140 - INFO - lala added a new book 'w' with ISBN: 1.
+2024-05-10 22:14:13,923 - INFO - admin viewed all books.
+2024-05-10 22:15:42,408 - INFO - librarian sorted books by number of copies.
+2024-05-20 21:05:46,305 - INFO - admin added a new book 'wet' with ISBN: 1.
+2024-05-20 21:06:14,119 - INFO - admin viewed all books.
+2024-05-20 21:40:33,975 - INFO - admin added a new book 'wet' with ISBN: 1.
+2024-05-20 21:40:36,587 - INFO - admin viewed all books.
+2024-05-20 21:41:43,287 - INFO - admin viewed all books.
+2024-05-20 21:45:42,134 - INFO - admin added a new book 'wet' with ISBN: 2.
+2024-05-20 21:45:43,753 - INFO - admin viewed all books.
+2024-05-20 21:46:01,580 - INFO - admin viewed all books.
+2024-05-20 21:46:43,368 - INFO - admin viewed all books.
+2024-05-20 21:56:24,188 - INFO - admin added a new book 'wet' with ISBN: 1.
+2024-05-20 21:56:27,134 - INFO - admin viewed all books.
+2024-05-20 21:56:47,103 - INFO - admin viewed all books.
+2024-05-20 22:32:18,217 - INFO - admin viewed all books.
+2024-05-20 22:32:57,649 - INFO - admin added a new book 'go' with ISBN: 2.
+2024-05-20 22:32:59,304 - INFO - admin viewed all books.
+2024-05-20 22:33:25,932 - INFO - admin viewed all books.
+2024-05-20 22:34:22,386 - INFO - librarian viewed all books.
+2024-05-20 22:57:50,072 - INFO - librarian sorted books by publisher.
+2024-05-20 23:03:20,177 - INFO - admin viewed all books.
+2024-05-20 23:03:49,441 - INFO - admin sorted books by publisher.
+2024-05-20 23:03:55,375 - INFO - admin sorted books by number of copies.
+2024-05-20 23:06:05,027 - INFO - lala sorted books by publisher.
+2024-05-20 23:06:09,629 - INFO - lala sorted books by number of copies.
+2024-05-29 20:44:45,418 - INFO - customer viewed all books.
+2024-05-29 20:45:00,662 - INFO - customer borrowed book with ISBN: 2.
+2024-05-29 20:45:04,138 - INFO - customer viewed all books.
+2024-05-29 21:10:18,588 - INFO - customer viewed all books.
+2024-05-29 21:10:25,867 - INFO - customer searched for books with title containing 'go'.
+2024-05-29 21:27:37,943 - INFO - customer viewed all books.
+2024-05-29 22:37:04,243 - INFO - customer viewed all books.
+2024-05-29 22:43:33,019 - INFO - customer viewed all books.
+2024-05-29 22:45:02,803 - INFO - customer viewed all books.
+2024-05-29 22:49:53,874 - INFO - admin added a new book 'joy' with ISBN: 30.
+2024-05-29 22:51:46,012 - INFO - admin added a new book 'midget' with ISBN: 50.
+2024-05-29 22:53:02,840 - INFO - customer viewed all books.
+2024-05-29 22:56:23,236 - INFO - customer borrowed book with ISBN: 30.
+2024-05-29 22:56:28,158 - INFO - customer viewed all books.
+2024-05-29 22:57:09,333 - INFO - customer borrowed book with ISBN: 30.
+2024-05-29 22:57:13,222 - INFO - customer viewed all books.
+2024-05-29 22:59:44,039 - INFO - admin viewed all books.
+2024-05-29 23:01:08,080 - INFO - admin updated book with ISBN: 30.
+2024-05-29 23:01:11,446 - INFO - admin viewed all books.
+2024-05-29 23:01:37,002 - INFO - admin viewed all books.
+2024-05-29 23:02:21,333 - INFO - admin updated book with ISBN: 30.
+2024-05-29 23:51:26,262 - INFO - admin viewed all books.
+2024-05-29 23:52:20,924 - INFO - admin added a new book 'sleepy' with ISBN: 100.
+2024-05-29 23:52:22,248 - INFO - admin viewed all books.
+2024-05-29 23:55:05,037 - INFO - admin viewed all books.
+2024-05-29 23:56:19,318 - INFO - admin added a new book 'angry' with ISBN: 40.
+2024-05-29 23:56:20,871 - INFO - admin viewed all books.
+2024-05-30 00:22:02,617 - INFO - librarian viewed all books.
+2024-05-30 00:22:09,424 - INFO - librarian sorted books by publisher.
+2024-05-30 00:22:20,422 - INFO - librarian sorted books by number of copies.
+2024-05-30 08:40:59,318 - INFO - mommy viewed all books.
+2024-05-30 08:42:43,572 - INFO - mommy borrowed book with ISBN: 40.
+2024-05-30 08:42:50,438 - INFO - mommy viewed all books.
+2024-05-30 09:11:54,567 - INFO - Password for user 'mommy' was reset by the admin.
+2024-06-01 20:30:43,114 - INFO - librarian viewed all books.
+2024-06-01 20:35:09,735 - INFO - librarian viewed all books.
+2024-06-01 20:40:58,159 - INFO - librarian added a new book 'lebron' with ISBN: 300.
+2024-06-01 20:41:20,743 - INFO - librarian viewed all books.
+2024-06-01 20:53:37,307 - INFO - librarian updated book with ISBN: 300.
+2024-06-01 20:54:58,693 - INFO - librarian viewed all books.
+2024-06-01 20:56:20,193 - INFO - librarian updated book with ISBN: 300.
+2024-06-01 20:56:21,369 - INFO - librarian viewed all books.
+2024-06-01 20:56:42,662 - INFO - librarian viewed all books.
+2024-06-01 20:57:04,831 - INFO - librarian updated book with ISBN: 300.
+2024-06-01 20:57:07,109 - INFO - librarian viewed all books.
+2024-06-01 20:57:28,250 - INFO - librarian viewed all books.
+2024-06-01 20:59:47,252 - INFO - librarian deleted book with ISBN: 300.
+2024-06-01 20:59:51,112 - INFO - librarian viewed all books.
+2024-06-01 21:00:06,919 - INFO - librarian viewed all books.
+2024-06-01 21:16:20,897 - INFO - librarian sorted books by publisher.
+2024-06-01 21:16:55,458 - INFO - librarian sorted books by publisher.
+2024-06-01 21:45:36,367 - INFO - librarian sorted books by number of copies.
+2024-06-01 21:46:49,958 - INFO - librarian sorted books by number of copies.
+2024-06-01 21:47:10,447 - INFO - librarian sorted books by number of copies.
+2024-06-01 22:05:38,542 - INFO - librarian sorted books by number of copies.
+2024-06-01 22:07:03,286 - INFO - librarian sorted books by number of copies in descending order.
+2024-06-01 22:08:11,975 - INFO - librarian updated book with ISBN: 30.
+2024-06-01 22:08:15,737 - INFO - librarian sorted books by number of copies in descending order.
+2024-06-01 22:09:01,342 - INFO - librarian sorted books by number of copies in descending order.
+2024-06-01 22:15:41,266 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:16:27,058 - INFO - customer borrowed book with ISBN: 30.
+2024-06-01 22:17:03,836 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:17:30,679 - INFO - customer borrowed book with ISBN: 30.
+2024-06-01 22:17:52,247 - INFO - customer borrowed book with ISBN: 40.
+2024-06-01 22:18:12,722 - INFO - customer borrowed book with ISBN: 40.
+2024-06-01 22:18:19,438 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:24:36,004 - INFO - customer viewed all books.
+2024-06-01 22:24:54,521 - INFO - customer borrowed 4 copies of book with ISBN: 40.
+2024-06-01 22:24:58,507 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:25:30,597 - INFO - customer viewed all books.
+2024-06-01 22:26:23,817 - INFO - admin sorted books by number of copies in descending order.
+2024-06-01 22:27:01,127 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:27:29,804 - INFO - customer borrowed 6 copies of book with ISBN: 100.
+2024-06-01 22:27:41,019 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:28:03,817 - INFO - customer sorted books by number of copies in descending order.
+2024-06-01 22:42:54,074 - INFO - librarian sorted books by publisher in ascending order.
+2024-06-01 22:44:37,982 - INFO - admin sorted books by publisher in ascending order.
+2024-06-01 22:45:55,999 - INFO - admin viewed all books.
+2024-06-01 22:47:37,111 - INFO - admin sorted books by publisher in ascending order.
+2024-06-01 23:29:45,378 - INFO - customer borrowed 88 copies of book with ISBN: 30.
+2024-06-01 23:29:48,801 - INFO - customer viewed all books.
+2024-06-03 21:10:11,587 - INFO - customer viewed all books.
+2024-06-03 21:10:47,911 - INFO - customer borrowed 2 copies of book with ISBN: 40.
+2024-06-03 21:10:50,234 - INFO - customer viewed all books.
+2024-06-03 21:11:01,226 - INFO - customer returned book with ISBN: 40.
+2024-06-03 21:11:04,911 - INFO - customer viewed all books.
+2024-06-03 21:12:21,023 - INFO - customer returned book with ISBN: 40.
+2024-06-03 21:12:23,435 - INFO - customer viewed all books.
+2024-06-03 21:12:30,986 - INFO - customer returned book with ISBN: 40.
+2024-06-03 21:12:33,105 - INFO - customer viewed all books.
+2024-06-03 21:17:41,049 - INFO - customer viewed all books.
+2024-06-03 21:17:56,126 - INFO - customer viewed all books.
+2024-06-03 21:18:05,099 - INFO - customer viewed all books.
+2024-06-03 21:19:24,373 - INFO - admin added a new book 'fatty' with ISBN: 12.
+2024-06-03 21:19:36,735 - INFO - customer viewed all books.
+2024-06-03 21:19:54,391 - INFO - customer borrowed 20 copies of book with ISBN: 12.
+2024-06-03 21:19:55,034 - INFO - customer viewed all books.
+2024-06-03 21:32:07,664 - INFO - customer viewed all books.
+2024-06-03 21:45:21,710 - INFO - customer viewed all books.
+2024-06-03 21:49:39,491 - INFO - customer viewed all books.
+2024-06-03 21:50:02,691 - INFO - customer borrowed 5 copies of book with ISBN: 12.
+2024-06-03 21:50:04,449 - INFO - customer viewed all books.
+2024-06-03 22:00:17,541 - INFO - customer viewed all books.
+2024-06-03 23:01:20,070 - INFO - customer viewed all books.
+2024-06-04 09:32:01,968 - INFO - customer viewed all books.
+2024-06-04 09:32:18,231 - INFO - customer borrowed 25 copies of book with ISBN: 12.
+2024-06-04 09:32:20,308 - INFO - customer viewed all books.
+2024-06-04 09:33:08,923 - INFO - admin viewed all books.
+2024-06-04 09:34:25,153 - INFO - Password for user 'lala' was reset by the admin.
+2024-06-04 09:36:27,106 - INFO - admin viewed all books.
+2024-06-04 10:00:49,614 - INFO - customer viewed all books.
+2024-06-04 10:01:11,276 - INFO - customer borrowed 2 copies of book with ISBN: 40.
+2024-06-04 10:01:12,380 - INFO - customer viewed all books.
+2024-06-04 10:04:53,969 - INFO - customer viewed all books.
+2024-06-04 10:05:03,798 - INFO - customer borrowed 1 copies of book with ISBN: 40.
+2024-06-04 10:05:04,967 - INFO - customer viewed all books.
+2024-06-04 10:05:33,079 - INFO - customer returned 300 copies of book with ISBN: 1.
+2024-06-04 10:05:36,836 - INFO - customer viewed all books.
+2024-06-04 11:19:37,990 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 15:21:29,897 - INFO - admin added a new book 'q' with ISBN: 10.
+2024-06-04 15:31:40,556 - INFO - Password for user 'willy' was reset by the admin.
+2024-06-04 16:28:25,359 - INFO - admin viewed all books.
+2024-06-04 16:29:27,648 - INFO - admin viewed all books.
+2024-06-04 16:32:56,344 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 16:33:39,384 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 16:34:42,000 - INFO - admin sorted books by number of copies in descending order.
+2024-06-04 16:35:20,071 - INFO - admin sorted books by number of copies in descending order.
+2024-06-04 20:40:07,898 - INFO - kehui viewed all books.
+2024-06-04 20:44:32,211 - INFO - kehui viewed all books.
+2024-06-04 20:48:35,471 - INFO - admin viewed all books.
+2024-06-04 20:49:23,766 - INFO - kehui viewed all books.
+2024-06-04 20:54:05,352 - INFO - kehui viewed all books.
+2024-06-04 20:54:57,305 - INFO - kehui viewed all books.
+2024-06-04 20:55:22,226 - INFO - kehui viewed all books.
+2024-06-04 21:46:32,476 - INFO - admin deleted book with ISBN: 12.
+2024-06-04 21:46:44,763 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 21:49:24,289 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 21:50:00,710 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 21:51:19,832 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 21:53:04,625 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 21:53:32,918 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 21:54:18,402 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 21:57:19,737 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 21:58:54,581 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 21:59:22,282 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 22:00:48,767 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 22:01:13,387 - INFO - admin sorted books by publisher in ascending order.
+2024-06-04 22:02:17,974 - INFO - admin sorted books by number of copies in descending order.
+2024-06-04 22:03:30,955 - INFO - admin sorted books by number of copies in descending order.
+2024-06-04 22:13:37,817 - INFO - librarian viewed all books.
+2024-06-04 22:16:48,283 - INFO - librarian sorted books by publisher in ascending order.
+2024-06-04 22:16:53,127 - INFO - librarian sorted books by number of copies in descending order.
+2024-06-04 22:20:16,175 - INFO - customer viewed all books.
+2024-06-04 22:29:20,025 - INFO - customer viewed all books.
+2024-06-04 22:32:15,895 - INFO - customer sorted books by publisher in ascending order.
+2024-06-04 22:32:20,491 - INFO - customer sorted books by number of copies in descending order.
+2024-06-05 08:38:35,321 - INFO - admin viewed all books.
+2024-06-05 08:39:35,309 - INFO - admin sorted books by publisher in ascending order.
+2024-06-05 08:39:51,894 - INFO - admin sorted books by number of copies in descending order.
+2024-06-05 08:44:42,160 - INFO - admin added a new book 'computers' with ISBN: 123.
+2024-06-05 08:45:33,188 - INFO - admin viewed all books.
+2024-06-05 08:47:32,132 - INFO - kiefer updated book with ISBN: 123.
+2024-06-05 09:22:19,412 - INFO - admin sorted books by publisher in ascending order.
+2024-06-05 09:25:10,394 - INFO - admin sorted books by publisher in ascending order.
+2024-06-05 09:25:14,844 - INFO - admin sorted books by number of copies in descending order.
+2024-06-05 09:26:01,334 - INFO - admin sorted books by number of copies in descending order.
+2024-06-05 09:26:48,154 - INFO - admin added a new book 'ronaldo' with ISBN: 7.
+2024-06-05 09:29:07,725 - INFO - librarian sorted books by publisher in ascending order.
+2024-06-05 09:29:10,634 - INFO - librarian sorted books by number of copies in descending order.
+2024-06-05 09:33:43,631 - INFO - admin viewed all books.
+2024-06-05 09:37:48,972 - INFO - admin viewed all books.
+2024-06-05 09:39:16,539 - INFO - admin sorted books by publisher in ascending order.
+2024-06-05 09:40:44,092 - INFO - admin sorted books by number of copies in descending order.
+2024-06-05 09:42:11,163 - INFO - librarian viewed all books.
+2024-06-05 09:42:25,554 - INFO - librarian sorted books by publisher in ascending order.
+2024-06-05 09:42:31,849 - INFO - librarian sorted books by number of copies in descending order.
+2024-06-05 09:43:30,743 - INFO - customer viewed all books.
+2024-06-05 09:46:49,358 - INFO - customer sorted books by publisher in ascending order.
+2024-06-05 09:48:01,847 - INFO - admin added a new book 'dumb' with ISBN: 78.
+2024-06-05 09:48:05,883 - INFO - admin viewed all books.
+2024-06-05 09:48:47,833 - INFO - Password for user 'kiefer' was reset by the admin.
+2024-06-05 09:49:42,608 - INFO - 
+-- Password for user 'kiefer' was reset by the admin. --
+2024-06-05 09:50:19,562 - INFO - Password for user 'kiefer' was reset by the admin.
+2024-06-05 09:50:42,174 - INFO - Password for user 'kiefer' was reset by the admin.
+2024-06-05 09:50:50,137 - INFO - admin viewed all books.
+2024-06-05 10:08:34,929 - INFO - admin viewed all books.
+2024-06-05 10:08:53,674 - INFO - admin sorted books by publisher in ascending order.
+2024-06-05 10:09:10,443 - INFO - admin sorted books by publisher in ascending order.
+2024-06-05 10:09:24,994 - INFO - admin sorted books by number of copies in descending order.
+2024-06-05 10:10:07,354 - INFO - customer borrowed 1 copies of book with ISBN: 40.
+2024-06-05 10:10:09,178 - INFO - customer viewed all books.
+2024-06-05 10:31:06,608 - INFO - admin viewed all books.
+2024-06-05 12:06:04,397 - INFO - admin added a new book 'm' with ISBN: 1111.
+2024-06-05 12:06:07,914 - INFO - admin viewed all books.
+2024-06-09 20:24:13,814 - INFO - admin sorted books by publisher in ascending order.
+2024-06-09 20:26:36,531 - INFO - customer viewed all books.
+2024-06-24 14:38:37,252 - INFO - librarian sorted books by title in ascending order.
+2024-06-24 14:40:01,256 - INFO - librarian viewed all books.
+2024-06-24 14:53:51,141 - INFO - librarian sorted books by language and ISBN in ascending order.
+2024-06-25 10:08:28,888 - INFO - librarian sorted books by language and ISBN in ascending order.
+2024-06-25 10:09:07,415 - INFO - librarian sorted books by language and ISBN in ascending order.
+2024-06-25 11:47:08,809 - INFO - admin sorted books by title in ascending order.
+2024-06-25 11:47:18,160 - INFO - admin sorted books by title in ascending order.
+2024-06-25 11:47:30,964 - INFO - admin sorted books by title in ascending order.
+2024-06-25 11:48:19,332 - INFO - admin sorted books by title in ascending order.
+2024-06-25 12:15:19,154 - INFO - librarian sorted books by title in ascending order.
+2024-06-25 12:17:19,634 - INFO - librarian sorted books by language and ISBN in ascending order.
+2024-06-25 12:18:14,365 - INFO - admin sorted books by title in ascending order.
+2024-06-25 12:28:49,798 - INFO - admin sorted books by title in ascending order.
+2024-06-25 12:29:05,872 - INFO - admin sorted books by language and ISBN in ascending order.
+2024-06-25 14:12:09,980 - INFO - librarian viewed all books.
+2024-06-25 15:42:09,203 - INFO - Admin admin deleted user 'mommy'.
+2024-06-25 15:43:43,844 - INFO - Admin admin deleted user 'customer'.
+2024-06-25 15:43:58,912 - INFO - Admin admin deleted user 'lalaCustomer'.
+2024-06-25 15:44:22,361 - INFO - Admin admin deleted user 'cus'.
+2024-06-25 15:44:26,099 - INFO - Admin admin deleted user 'cu1'.
+2024-06-25 15:44:29,561 - INFO - Admin admin deleted user 'c'.
+2024-06-25 15:44:38,182 - INFO - Admin admin deleted user 'holy'.
+2024-06-26 12:32:44,455 - INFO - admin sorted books by publisher in ascending order.
+2024-06-26 12:33:15,185 - INFO - admin sorted books by number of copies in descending order.
+2024-06-26 12:34:06,907 - INFO - admin viewed all books.
+2024-06-26 12:34:18,048 - INFO - admin sorted books by title in ascending order.
+2024-06-26 12:34:30,199 - INFO - admin sorted books by language and ISBN in ascending order.
+2024-06-26 12:36:13,953 - INFO - admin added a new book 'harry' with ISBN: 33.
+2024-06-26 12:36:19,920 - INFO - admin viewed all books.
+2024-06-28 09:42:56,569 - INFO - librarian viewed all books.
+2024-06-28 10:16:53,499 - INFO - librarian viewed all books.
+2024-06-28 10:46:31,132 - INFO - admin viewed all books.
+2024-06-28 10:52:59,678 - INFO - librarian viewed all books.
+2024-06-28 10:53:56,603 - INFO - librarian viewed all books.
+2024-06-28 10:54:46,137 - INFO - librarian updated book with ISBN: 70.
+2024-06-28 10:59:18,816 - INFO - admin viewed all books.
+2024-06-28 11:16:42,001 - INFO - admin updated book with ISBN: 70.
+2024-06-28 11:16:44,750 - INFO - admin viewed all books.
+2024-06-28 11:17:04,670 - INFO - darrell viewed all books.
+2024-06-28 11:19:14,376 - INFO - admin viewed all books.
+2024-06-28 11:26:16,315 - INFO - Admin admin deleted all user accounts.
+2024-06-28 11:26:20,325 - INFO - admin viewed all books.
+2024-06-28 11:29:10,805 - INFO - Attempting to authenticate user: admin
+2024-06-28 11:29:10,806 - INFO - Authentication failed for user: admin
+2024-06-29 09:33:05,639 - INFO - Admin admin deleted user 'customer'.
+2024-06-29 09:50:26,298 - INFO - librarian viewed all books.
+2024-06-29 09:50:32,293 - INFO - librarian viewed all books.
+2024-06-29 09:55:05,528 - INFO - librarian viewed all books.
+2024-06-29 10:02:41,878 - INFO - librarian viewed all books.
+2024-06-29 10:04:19,084 - INFO - librarian viewed all books.
+2024-06-29 10:09:32,788 - INFO - admin viewed all books.
+2024-06-29 11:18:57,004 - INFO - customer sorted books by publisher in ascending order.
