@@ -325,3 +325,11 @@
 2024-06-29 10:04:19,084 - INFO - librarian viewed all books.
 2024-06-29 10:09:32,788 - INFO - admin viewed all books.
 2024-06-29 11:18:57,004 - INFO - customer sorted books by publisher in ascending order.
+2024-06-29 11:41:10,200 - INFO - admin sorted books by language and ISBN in ascending order.
+2024-06-29 11:45:36,972 - INFO - kehui viewed all books.
+2024-06-29 11:45:59,184 - INFO - kehui viewed all books.
+2024-06-29 11:53:56,361 - INFO - darrell sorted books by title in ascending order.
+2024-06-29 11:55:35,922 - INFO - kehui sorted books by title in ascending order.
+2024-06-29 12:03:44,858 - INFO - admin viewed all books.
+2024-06-29 12:27:07,440 - INFO - admin viewed all books.
+2024-07-03 09:34:44,328 - INFO - librarian sorted books by language and ISBN in ascending order.

@@ -1,3 +1,4 @@
 'books', (1024, 751)
-'users', (2048, 606)
-'customer_requests', (3072, 5)
+'users', (2048, 698)
+'customer_requests', (3072, 139)
+'menu_items', (3584, 147)
