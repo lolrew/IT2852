@@ -14,7 +14,8 @@
 # customer can order food and drinks from the cafe using their points
 # customer email validation
 # customerID is using randomized method and generates a unique customerID
-#
+# Stack algorithm to undo last action. By pushing each operation onto a stack, you can easily undo the last action.
+# Trees to replace the current list or dictionary used for storing books with a Binary Search Tree (BST) for efficient search, insertion, and deletion operations.
 
 
 import logging
@@ -22,11 +23,14 @@ import shelve
 from tabulate import tabulate
 import random
 import string
-import re       # for email validation
+import re  # for email validation
 
 # Configure logging
 logging.basicConfig(filename='book_management.log', level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+################################ class User #######################################
 
 class User:
     def __init__(self, username, password, role, customer_id=None, email=None, points=0):
@@ -61,13 +65,25 @@ class User:
         else:
             return False
 
+
+################################### End class User ###########################################
+
+
+################################## class MenuItem ############################################
+
 class MenuItem:
     def __init__(self, name, points):
         self.name = name
         self.points = points
 
+
+################################## end class MenuItem ############################################
+
+
+################################## class Book ############################################
 class Book:
-    def __init__(self, ISBN_Num, title, Publisher, Language, NumberOfCopies, Availability, author, genre, points_value=None):
+    def __init__(self, ISBN_Num, title, Publisher, Language, NumberOfCopies, Availability, author, genre,
+                 points_value=None):
         self._title = title
         self._isbn = ISBN_Num
         self._publisher = Publisher
@@ -107,11 +123,130 @@ class Book:
     def get_points_value(self):
         return getattr(self, '_points_value', 0)  # Return 0 if _points_value is not set
 
+
+################################## end class Book ############################################
+
+
+################################## class Stack ############################################
+class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, item):
+        self.stack.append(item)
+
+    def pop(self):
+        if not self.is_empty():
+            return self.stack.pop()
+        else:
+            raise IndexError("Pop from an empty stack")
+
+    def peek(self):
+        if not self.is_empty():
+            return self.stack[-1]
+        else:
+            raise IndexError("Peek from an empty stack")
+
+    def is_empty(self):
+        return len(self.stack) == 0
+
+    def size(self):
+        return len(self.stack)
+
+
+################################## end class Stack ############################################
+
+
+################################## class BSTNode and BinarySearchTree ############################################
+class BSTNode:
+    def __init__(self, book):
+        self.left = None
+        self.right = None
+        self.book = book
+
+
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
+
+    #Inserts a book into the BST
+    def insert(self, book):
+        if self.root is None:
+            self.root = BSTNode(book)
+        else:
+            self._insert(self.root, book)
+
+    #Helper method for insertion.
+    def _insert(self, node, book):
+        if book.get_isbn() < node.book.get_isbn():
+            if node.left is None:
+                node.left = BSTNode(book)
+            else:
+                self._insert(node.left, book)
+        else:
+            if node.right is None:
+                node.right = BSTNode(book)
+            else:
+                self._insert(node.right, book)
+
+    def search(self, isbn):
+        return self._search(self.root, isbn)
+
+    def _search(self, node, isbn):
+        if node is None or node.book.get_isbn() == isbn:
+            return node
+        if isbn < node.book.get_isbn():
+            return self._search(node.left, isbn)
+        return self._search(node.right, isbn)
+
+    def delete(self, isbn):
+        self.root = self._delete(self.root, isbn)
+
+    def _delete(self, node, isbn):
+        if node is None:
+            return node
+        if isbn < node.book.get_isbn():
+            node.left = self._delete(node.left, isbn)
+        elif isbn > node.book.get_isbn():
+            node.right = self._delete(node.right, isbn)
+        else:
+            if node.left is None:
+                return node.right
+            elif node.right is None:
+                return node.left
+
+            temp = self._min_value_node(node.right)
+            node.book = temp.book
+            node.right = self._delete(node.right, temp.book.get_isbn())
+        return node
+
+    #  Finds the node with the minimum value (used in deletion)
+    def _min_value_node(self, node):
+        current = node
+        while current.left is not None:
+            current = current.left
+        return current
+
+    # Performs an in-order traversal of the BST.
+    def inorder_traversal(self):
+        self._inorder_traversal(self.root)
+
+    # Helper method for in-order traversal
+    def _inorder_traversal(self, node):
+        if node:
+            self._inorder_traversal(node.left)
+            print(node.book.get_isbn(), end=' ')
+            self._inorder_traversal(node.right)
+
+
+################################## end class BSTNode and BinarySearchTree ############################################
+
+# Initialize global variables
+operation_stack = Stack()
+book_tree = BinarySearchTree()
+
+
 # Sample user data for users to access in
-# admin, librarian and user are the username
-# admin123, librarian123, and user123 are the passwords
-# roles are assigned so that for example if users wanna add a new record,
-# they can't as they don't have permissions to do it.
 def initialize_users():
     with shelve.open('book_management_db') as db:
         if 'users' not in db:
@@ -121,6 +256,7 @@ def initialize_users():
                 User("customer", "customer123", "customer", "customer001", "customer@email.com")
             ]
         return list(db['users'])
+
 
 # Initialize shelve for storing user and book data
 with shelve.open('book_management_db') as db:
@@ -138,11 +274,18 @@ with shelve.open('book_management_db') as db:
     booklist = db['books']
     menu_items = db['menu_items']
 
+# Rebuild the BST from the booklist
+for isbn, book in booklist.items():
+    book_tree.insert(book)
+
+################################# CAFE SECTION ###########################################
+
 def display_cafe_menu():
     print("\n-- Cafe Menu --\n")
     headers = ["Item", "Points"]
     table = [[item.name, item.points] for item in menu_items]
     print(tabulate(table, headers, tablefmt="grid"))
+
 
 def order_from_cafe(user):
     try:
@@ -156,60 +299,111 @@ def order_from_cafe(user):
             return
         if user.spend_points(item.points):
             print(f"\n-- You have successfully ordered {item_name}. --")
-            with shelve.open('book_management_db') as db:
-                users = db['users']
-                for db_user in users:
-                    if db_user.username == user.username:
-                        db_user.points = user.points
-                        db_user.tier = user.tier
-                        break
-                db['users'] = users
+            try:
+                with shelve.open('book_management_db') as db:
+                    users = db['users']
+                    for db_user in users:
+                        if db_user.username == user.username:
+                            db_user.points = user.points
+                            db_user.tier = user.tier
+                            break
+                    db['users'] = users
+            except IOError as ioe:
+                print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+                logging.error(f"An I/O error occurred while accessing the database: {ioe}")
         else:
             print("\n** You do not have enough points to order this item. **")
     except Exception as e:
         print(f"An error occurred: {e}")
 
+#################################### END CAFE SECTION ######################################
 
+# generate an random CustomerID
 def generate_unique_customer_id(existing_ids):
     while True:
         customer_id = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
         if customer_id not in existing_ids:
             return customer_id
 
+
 def create_account():
     while True:
         try:
-            username = input("\nEnter a new username or type 'B' to go back:")
-            if username == "B":
-                break
+            username = input("\nEnter a new username or type 'B' to go back: ")
+            if username.upper() == 'B':
+                return
             if any(user.username == username for user in users):
                 raise ValueError("\n** Username already exists. **")
-            password = input("Enter a password or type 'B' to go back:")
-            if password == "B":
+
+            while True:
+                print("\nPassword requirements:")
+                print("- At least 8 characters long")
+                print("- Contains at least one uppercase letter")
+                print("- Contains at least one lowercase letter")
+                print("- Contains at least one digit")
+                print("- Contains at least one special character (!@#$%^&*(),.?\":{}|<>)")
+
+                password = input("Enter a password or type 'B' to go back: ")
+                if password.upper() == 'B':
+                    return
+
+                # Validate password complexity
+                if len(password) < 8:
+                    print("\n** Password must be at least 8 characters long. **")
+                    continue
+                if not re.search(r"[A-Z]", password):
+                    print("\n** Password must contain at least one uppercase letter. **")
+                    continue
+                if not re.search(r"[a-z]", password):
+                    print("\n** Password must contain at least one lowercase letter. **")
+                    continue
+                if not re.search(r"\d", password):
+                    print("\n** Password must contain at least one digit. **")
+                    continue
+                if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+                    print("\n** Password must contain at least one special character. **")
+                    continue
+
                 break
-            role = input("Enter a role (admin/librarian/customer) or type 'B' to go back:").lower()
+
+            role = input("Enter a role (admin/librarian/customer) or type 'B' to go back: ").lower()
+            if role.upper() == 'B':
+                return
             if role not in ["admin", "librarian", "customer"]:
                 raise ValueError("\n** Invalid role. **")
-            if role == "customer":
-                email = input("Enter email (e.g., example@domain.com): ")
 
-                # Validate email format
-                email_regex = r'^\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-                if not re.match(email_regex, email):
-                    raise ValueError("\n** Invalid email format. Please enter a valid email address. **")
+            if role == "customer":
+                while True:
+                    email = input("Enter email (e.g., example@domain.com) or type 'B' to go back: ")
+                    if email.upper() == 'B':
+                        return
+
+                    # Validate email format
+                    email_regex = r'^\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+                    if not re.match(email_regex, email):
+                        print("\n** Invalid email format. Please enter a valid email address. **")
+                        continue
+                    break
 
                 existing_customer_ids = [user.customer_id for user in users if user.customer_id]
                 customer_id = generate_unique_customer_id(existing_customer_ids)
                 user = User(username, password, role, customer_id=customer_id, email=email)
             else:
                 user = User(username, password, role)
+
             users.append(user)
-            with shelve.open('book_management_db') as db:
-                db['users'] = users
-            print("Account created successfully.")
-            return user
+            try:
+                with shelve.open('book_management_db') as db:
+                    db['users'] = users
+                print("Account created successfully.")
+                return user
+            except IOError as ioe:
+                print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+                logging.error(f"An I/O error occurred while accessing the database: {ioe}")
         except ValueError as ve:
             print(ve)
+
+
 
 def authenticate(username, password):
     for user in users:
@@ -217,62 +411,90 @@ def authenticate(username, password):
             return user
     return None
 
+
 def is_admin(user):
     return user.role == "admin"
+
 
 def display_all_books(user):
     print("\n-- These are all the book records --\n")
     if is_admin(user) or user.role in ["librarian", "customer"]:
+        headers = ["ISBN", "Title", "Publisher", "Language", "Number of Copies", "Availability", "Author", "Genre",
+                   "Points"]
         table = []
-        headers = ["ISBN", "Title", "Publisher", "Language", "Number of Copies", "Availability", "Author", "Genre", "Points"]
 
-        for k, v in booklist.items():
-            table.append([
-                k,
-                v.get_title(),
-                v.get_publisher(),
-                v.get_language(),
-                v.get_noOfCopies(),
-                v.get_availability(),
-                v.get_author(),
-                v.get_genre(),
-                v.get_points_value()  # Use the getter method
-            ])
+        def print_inorder(node):
+            if node:
+                print_inorder(node.left)
+                book = node.book
+                table.append([
+                    book.get_isbn(), book.get_title(), book.get_publisher(),
+                    book.get_language(), book.get_noOfCopies(), book.get_availability(),
+                    book.get_author(), book.get_genre(), book.get_points_value()
+                ])
+                print_inorder(node.right)
 
+        print_inorder(book_tree.root)
         print(tabulate(table, headers, tablefmt="grid"))
         logging.info(f"{user.username} viewed all books.")
     else:
         print("** Unauthorized access. **")
 
+
 def add_new_book(user, isbn, title, publisher, language, noOfCopies, availability, author, genre):
     try:
         if not (is_admin(user) or user.role == "librarian"):
             raise PermissionError("** Unauthorized access. **")
-        if isbn in booklist:
+        if book_tree.search(isbn):
             raise ValueError("\n** ISBN must be unique. **\n")
 
-        # Add a prompt to enter points value for the book
-        points_value = int(input("Enter points value for the book: "))
+        while True:
+            points_value_str = input("Enter points value for the book: ")
+            if points_value_str.upper() == 'B':
+                return
+            try:
+                points_value = int(points_value_str)
+                break
+            except ValueError:
+                print("\n** Invalid input for points. Please enter a valid number. **")
 
         book = Book(isbn, title, publisher, language, noOfCopies, availability, author, genre, points_value)
+        book_tree.insert(book)
         booklist[isbn] = book
 
-        with shelve.open('book_management_db') as db:
-            db['books'] = booklist
+        try:
+            with shelve.open('book_management_db') as db:
+                db['books'] = booklist
+        except IOError as ioe:
+            print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+            logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+
+        # Push the operation to the stack
+        operation_stack.push(('add', isbn, book))
+
         print('\n-- Book added successfully. --')
     except (PermissionError, ValueError) as e:
         print(e)
     except TypeError:
         print("\n** Invalid input for points. Please enter a valid number. **")
 
+
+
+
+
 def update_book(user, isbn):
     try:
         if is_admin(user) or user.role == "librarian":
-            if isbn not in booklist:
+            node = book_tree.search(isbn)
+            if not node:
                 print("\n** Book not found. **")
                 return
 
-            book = booklist[isbn]
+            book = node.book
+            # Record the previous state of the book
+            previous_book_state = Book(book.get_isbn(), book.get_title(), book.get_publisher(), book.get_language(),
+                                       book.get_noOfCopies(), book.get_availability() == "Yes", book.get_author(),
+                                       book.get_genre(), book.get_points_value())
             print("\n-- Current Book Details --")
             print_book_info(book)
 
@@ -294,13 +516,15 @@ def update_book(user, isbn):
             elif new_language:
                 book._language = new_language
 
-            new_noOfCopies = input("Enter new number of copies or press enter to keep current [or type 'B' to go back]: ")
+            new_noOfCopies = input(
+                "Enter new number of copies or press enter to keep current [or type 'B' to go back]: ")
             if new_noOfCopies.upper() == 'B':
                 return
             elif new_noOfCopies:
                 book._noOfCopies = int(new_noOfCopies)
 
-            new_availability = input("Enter new availability (Y/N) or press enter to keep current [or type 'B' to go back]: ").upper()
+            new_availability = input(
+                "Enter new availability (Y/N) or press enter to keep current [or type 'B' to go back]: ").upper()
             if new_availability == 'B':
                 return
             elif new_availability in ['Y', 'N']:
@@ -324,8 +548,15 @@ def update_book(user, isbn):
             elif new_points_value:
                 book._points_value = int(new_points_value)
 
-            with shelve.open('book_management_db') as db:
-                db['books'] = booklist
+            try:
+                with shelve.open('book_management_db') as db:
+                    db['books'] = booklist
+            except IOError as ioe:
+                print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+                logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+
+            # Push the previous state onto the stack
+            operation_stack.push(('update', isbn, previous_book_state))
 
             print("Book updated successfully.")
             logging.info(f"{user.username} updated book with ISBN: {isbn}.")
@@ -336,24 +567,38 @@ def update_book(user, isbn):
     except ValueError as error:
         print(f"Error: {error}. Please enter valid inputs.")
 
+
+
+
 def delete_book(user, isbn):
     try:
         if not (is_admin(user) or user.role == "librarian"):
             raise PermissionError("** Unauthorized access. **")
 
-        if isbn not in booklist:
+        node = book_tree.search(isbn)
+        if not node:
             raise ValueError("\n** Book not found. **")
 
+        book = node.book
+        book_tree.delete(isbn)
         del booklist[isbn]
 
-        # Save the updated booklist to the shelve database
-        with shelve.open('book_management_db') as db:
-            db['books'] = booklist
+        try:
+            with shelve.open('book_management_db') as db:
+                db['books'] = booklist
+        except IOError as ioe:
+            print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+            logging.error(f"An I/O error occurred while accessing the database: {ioe}")
 
-        print('Books deleted successfully')
+        # Push the operation to the stack
+        operation_stack.push(('delete', isbn, book))
+
+        print('Book deleted successfully')
         logging.info(f"{user.username} deleted book with ISBN: {isbn}.")
     except (ValueError, PermissionError) as e:
         print(e)
+
+
 
 def delete_user(admin_user):
     try:
@@ -371,8 +616,16 @@ def delete_user(admin_user):
             users.remove(user_to_delete)
 
             # Save the updated user list to the shelve database
-            with shelve.open('book_management_db') as db:
-                db['users'] = users
+            try:
+                with shelve.open('book_management_db') as db:
+                    db['users'] = users
+            except IOError as ioe:
+                print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+                logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+                return  # Exit the function if there's an I/O error
+
+            # Push the operation to the stack
+            operation_stack.push(('delete_user', user_to_delete.username, user_to_delete))
 
             print(f"\n-- User '{username_to_delete}' deleted successfully. --")
             logging.info(f"Admin {admin_user.username} deleted user '{username_to_delete}'.")
@@ -380,6 +633,10 @@ def delete_user(admin_user):
             print("\n** User not found. **")
     except PermissionError as e:
         print(e)
+
+
+
+
 
 def delete_all_users(admin_user):
     try:
@@ -390,10 +647,19 @@ def delete_all_users(admin_user):
             "Are you sure you want to delete ALL user accounts? This action cannot be undone. Type 'yes' to confirm: ")
         if confirmation.lower() == 'yes':
             global users
+            previous_users = users.copy()  # Make a copy of the current users list
             users = []
 
-            with shelve.open('book_management_db', writeback=True) as db:
-                db['users'] = users
+            try:
+                with shelve.open('book_management_db', writeback=True) as db:
+                    db['users'] = users
+            except IOError as ioe:
+                print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+                logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+                return  # Exit the function if there's an I/O error
+
+            # Push the operation to the stack
+            operation_stack.push(('delete_all_users', None, previous_users))
 
             print("All user accounts have been successfully deleted.")
             logging.info(f"Admin {admin_user.username} deleted all user accounts.")
@@ -402,6 +668,97 @@ def delete_all_users(admin_user):
     except PermissionError as e:
         print(e)
 
+
+
+
+def undo_last_operation(user):
+    global users  # Add this line to modify the global users variable
+    if not (is_admin(user) or user.role == "librarian"):
+        print("** Unauthorized access. **")
+        return
+
+    if operation_stack.is_empty():
+        print("** No operations to undo. **")
+        return
+
+    operation, identifier, item = operation_stack.pop()
+
+    try:
+        if operation == 'add':
+            book_tree.delete(identifier)
+            del booklist[identifier]
+            try:
+                with shelve.open('book_management_db') as db:
+                    db['books'] = booklist
+            except IOError as ioe:
+                print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+                logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+                return  # Exit the function if there's an I/O error
+            print("Undo successful: Last book addition has been undone.")
+        elif operation == 'delete':
+            book_tree.insert(item)
+            booklist[identifier] = item
+            try:
+                with shelve.open('book_management_db') as db:
+                    db['books'] = booklist
+            except IOError as ioe:
+                print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+                logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+                return  # Exit the function if there's an I/O error
+            print("Undo successful: Last book deletion has been undone.")
+        elif operation == 'delete_user':
+            users.append(item)
+            try:
+                with shelve.open('book_management_db') as db:
+                    db['users'] = users
+            except IOError as ioe:
+                print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+                logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+                return  # Exit the function if there's an I/O error
+            print("Undo successful: Last user deletion has been undone.")
+        elif operation == 'delete_all_users':
+            users = item  # Restore the previous state of users
+            try:
+                with shelve.open('book_management_db', writeback=True) as db:
+                    db['users'] = users
+            except IOError as ioe:
+                print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+                logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+                return  # Exit the function if there's an I/O error
+            print("Undo successful: Deletion of all users has been undone.")
+        elif operation == 'update':
+            # Restore the previous state of the book
+            book_tree.delete(identifier)
+            book_tree.insert(item)
+            booklist[identifier] = item
+            try:
+                with shelve.open('book_management_db') as db:
+                    db['books'] = booklist
+            except IOError as ioe:
+                print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+                logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+                return  # Exit the function if there's an I/O error
+            print("Undo successful: Last book update has been undone.")
+        elif operation == 'reset_password':
+            for user in users:
+                if user.username == identifier:
+                    user.password = item  # Restore the old password
+                    break
+            try:
+                with shelve.open('book_management_db') as db:
+                    db['users'] = users
+            except IOError as ioe:
+                print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+                logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+                return  # Exit the function if there's an I/O error
+            print("Undo successful: Last password reset has been undone.")
+    except Exception as e:
+        print(f"An error occurred during undo: {e}")
+        logging.error(f"An error occurred during undo: {e}")
+
+
+
+
 def sort_book_publisher(user):
     def get_publisher(book):
         return book.get_publisher()
@@ -409,66 +766,66 @@ def sort_book_publisher(user):
     try:
         print("\n---------------------------------------------------------------")
         if is_admin(user) or user.role in ["librarian", "customer"]:
-            with shelve.open('book_management_db') as db:
-                booklist = db.get('books', {})
+            books = []
 
-                books = list(booklist.values())
+            def collect_books_inorder(node):
+                if node:
+                    collect_books_inorder(node.left)
+                    books.append(node.book)
+                    collect_books_inorder(node.right)
 
-                n = len(books)
-                for i in range(n - 1):
-                    for j in range(0, n - i - 1):
-                        if get_publisher(books[j]) > get_publisher(books[j + 1]):
-                            books[j], books[j + 1] = books[j + 1], books[j]
+            collect_books_inorder(book_tree.root)
 
-                headers = ["ISBN", "Title", "Publisher", "Language", "Number of Copies", "Availability", "Author", "Genre", "Points"]
-                table = []
+            books.sort(key=get_publisher)
 
-                for book in books:
-                    table.append([
-                        book.get_isbn(),
-                        book.get_title(),
-                        book.get_publisher(),
-                        book.get_language(),
-                        book.get_noOfCopies(),
-                        book.get_availability(),
-                        book.get_author(),
-                        book.get_genre(),
-                        book.get_points_value()
-                    ])
+            headers = ["ISBN", "Title", "Publisher", "Language", "Number of Copies", "Availability", "Author", "Genre",
+                       "Points"]
+            table = []
 
-                print(tabulate(table, headers, tablefmt="grid"))
-                logging.info(f"{user.username} sorted books by publisher in ascending order.")
+            for book in books:
+                table.append([
+                    book.get_isbn(), book.get_title(), book.get_publisher(), book.get_language(),
+                    book.get_noOfCopies(), book.get_availability(), book.get_author(), book.get_genre(),
+                    book.get_points_value()
+                ])
+
+            print(tabulate(table, headers, tablefmt="grid"))
+            logging.info(f"{user.username} sorted books by publisher in ascending order.")
         else:
             raise PermissionError("** Unauthorized access. **")
     except PermissionError as e:
         print(e)
 
+
 def search_book_by_title(user, title):
-    with shelve.open('book_management_db') as db:
-        booklist = db.get('books', {})
+    books = []
 
-        search_results = []
-        headers = ["ISBN", "Title", "Publisher", "Language", "Number of Copies", "Availability", "Author", "Genre", "Points"]
+    def collect_books_inorder(node):
+        if node:
+            collect_books_inorder(node.left)
+            books.append(node.book)
+            collect_books_inorder(node.right)
 
-        for book in booklist.values():
-            if book.get_title().lower() == title.lower():
-                search_results.append([
-                    book.get_isbn(),
-                    book.get_title(),
-                    book.get_publisher(),
-                    book.get_language(),
-                    book.get_noOfCopies(),
-                    book.get_availability(),
-                    book.get_author(),
-                    book.get_genre(),
-                    book.get_points_value()
-                ])
+    collect_books_inorder(book_tree.root)
 
-        if search_results:
-            print("\n-- Search Results --\n")
-            print(tabulate(search_results, headers, tablefmt="grid"))
-        else:
-            print("\n** Book not found. **")
+    search_results = []
+    headers = ["ISBN", "Title", "Publisher", "Language", "Number of Copies", "Availability", "Author", "Genre",
+               "Points"]
+
+    for book in books:
+        if book.get_title().lower() == title.lower():
+            search_results.append([
+                book.get_isbn(), book.get_title(), book.get_publisher(), book.get_language(),
+                book.get_noOfCopies(), book.get_availability(), book.get_author(), book.get_genre(),
+                book.get_points_value()
+            ])
+
+    if search_results:
+        print("\n-- Search Results --\n")
+        print(tabulate(search_results, headers, tablefmt="grid"))
+    else:
+        print("\n** Book not found. **")
+
 
 def sort_noOfCopies(user):
     def get_noOfCopies(book):
@@ -477,75 +834,92 @@ def sort_noOfCopies(user):
     try:
         print("\n---------------------------------------------------------------")
         if is_admin(user) or user.role in ["librarian", "customer"]:
-            with shelve.open('book_management_db') as db:
-                booklist = list(db.get('books', {}).values())
+            books = []
 
-                for i in range(1, len(booklist)):
-                    current_book = booklist[i]
-                    j = i - 1
-                    while j >= 0 and get_noOfCopies(booklist[j]) < get_noOfCopies(current_book):
-                        booklist[j + 1] = booklist[j]
-                        j -= 1
-                    booklist[j + 1] = current_book
+            def collect_books_inorder(node):
+                if node:
+                    collect_books_inorder(node.left)
+                    books.append(node.book)
+                    collect_books_inorder(node.right)
 
-                headers = ["ISBN", "Title", "Publisher", "Language", "Number of Copies", "Availability", "Author", "Genre", "Points"]
-                table = []
+            collect_books_inorder(book_tree.root)
 
-                for book in booklist:
-                    table.append([
-                        book.get_isbn(),
-                        book.get_title(),
-                        book.get_publisher(),
-                        book.get_language(),
-                        book.get_noOfCopies(),
-                        book.get_availability(),
-                        book.get_author(),
-                        book.get_genre(),
-                        book.get_points_value()
-                    ])
+            books.sort(key=get_noOfCopies, reverse=True)
 
-                print(tabulate(table, headers, tablefmt="grid"))
-                logging.info(f"{user.username} sorted books by number of copies in descending order.")
+            headers = ["ISBN", "Title", "Publisher", "Language", "Number of Copies", "Availability", "Author", "Genre",
+                       "Points"]
+            table = []
+
+            for book in books:
+                table.append([
+                    book.get_isbn(), book.get_title(), book.get_publisher(), book.get_language(),
+                    book.get_noOfCopies(), book.get_availability(), book.get_author(), book.get_genre(),
+                    book.get_points_value()
+                ])
+
+            print(tabulate(table, headers, tablefmt="grid"))
+            logging.info(f"{user.username} sorted books by number of copies in descending order.")
         else:
             raise PermissionError("** Unauthorized access. **")
     except PermissionError as e:
         print(e)
 
+
 def print_book_info(book):
     print(
         f' ISBN: {book.get_isbn()}\n Title: {book.get_title()}\n Publisher: {book.get_publisher()}\n Language: {book.get_language()}\n Number of Copies: {book.get_noOfCopies()}\n Availability: {book.get_availability()} Author: {book.get_author()}\n Genre: {book.get_genre()}\n Points: {book.get_points_value()}\n\n')
+
 
 def borrow_book(user, isbn):
     try:
         if user.role != "customer":
             raise PermissionError("\n** Only customers can borrow books. **")
-        if isbn not in booklist:
+
+        node = book_tree.search(isbn)
+        if not node:
             raise ValueError("\n** Book not found. **")
-        book = booklist[isbn]
+
+        book = node.book
         if book.get_availability() == "No" or book.get_noOfCopies() == 0:
             print("\n** This book is not available for borrowing. **")
             return
+
         num_copies_to_borrow = int(input("Enter the number of copies you want to borrow: "))
         if num_copies_to_borrow <= 0 or num_copies_to_borrow > book.get_noOfCopies():
             print("\n** Invalid number of copies. **")
             return
+
         book._noOfCopies -= num_copies_to_borrow
         if book.get_noOfCopies() == 0:
             book._availability = False
+
         user.update_points(book.get_points_value() * num_copies_to_borrow)
-        with shelve.open('book_management_db') as db:
-            db['books'] = booklist
-            db['users'] = users
+
+        try:
+            with shelve.open('book_management_db') as db:
+                db['books'] = booklist
+                db['users'] = users
+        except IOError as ioe:
+            print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+            logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+            return  # Exit the function if there's an I/O error
+
         print("-- Books borrowed successfully. --")
     except (PermissionError, ValueError) as e:
         print(e)
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        logging.error(f"An unexpected error occurred: {e}")
+
 
 def view_all_users():
     headers = ["Username", "Role", "CustomerID", "Email", "Tier", "Points"]
     table = []
     for user in users:
-        table.append([user.username, user.role, user.customer_id or "N/A", user.email or "N/A", user.tier or "N/A", user.points])
+        table.append(
+            [user.username, user.role, user.customer_id or "N/A", user.email or "N/A", user.tier or "N/A", user.points])
     print(tabulate(table, headers, tablefmt="grid"))
+
 
 def reset_password():
     try:
@@ -553,13 +927,51 @@ def reset_password():
 
         for user in users:
             if user.username == username:
-                new_password = input("Enter the new password or type 'B' to go back to main menu: ")
-                if new_password == 'B':
-                    return
+                old_password = user.password  # Save the old password
+
+                while True:
+                    print("\nPassword requirements:")
+                    print("- At least 8 characters long")
+                    print("- Contains at least one uppercase letter")
+                    print("- Contains at least one lowercase letter")
+                    print("- Contains at least one digit")
+                    print("- Contains at least one special character (!@#$%^&*(),.?\":{}|<>)")
+
+                    new_password = input("Enter the new password or type 'B' to go back to main menu: ")
+                    if new_password.upper() == 'B':
+                        return
+
+                    # Validate password complexity
+                    if len(new_password) < 8:
+                        print("\n** Password must be at least 8 characters long. **")
+                        continue
+                    if not re.search(r"[A-Z]", new_password):
+                        print("\n** Password must contain at least one uppercase letter. **")
+                        continue
+                    if not re.search(r"[a-z]", new_password):
+                        print("\n** Password must contain at least one lowercase letter. **")
+                        continue
+                    if not re.search(r"\d", new_password):
+                        print("\n** Password must contain at least one digit. **")
+                        continue
+                    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", new_password):
+                        print("\n** Password must contain at least one special character. **")
+                        continue
+
+                    break
+
                 user.password = new_password
 
-                with shelve.open('book_management_db') as db:
-                    db['users'] = users
+                try:
+                    with shelve.open('book_management_db') as db:
+                        db['users'] = users
+                except IOError as ioe:
+                    print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+                    logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+                    return  # Exit the function if there's an I/O error
+
+                # Push the operation to the stack
+                operation_stack.push(('reset_password', username, old_password))
 
                 print(f"\n-- Password for user '{username}' has been reset. --")
                 logging.info(f"Password for user '{username}' was reset by the admin.")
@@ -568,6 +980,8 @@ def reset_password():
         print("\n** Username not found. **")
     except Exception as e:
         print(f"An error occurred: {e}")
+        logging.error(f"An error occurred: {e}")
+
 
 def quick_sort_books_by_title(books):
     if len(books) <= 1:
@@ -578,37 +992,41 @@ def quick_sort_books_by_title(books):
         greater_than_pivot = [book for book in books[1:] if book.get_title().lower() > pivot.get_title().lower()]
         return quick_sort_books_by_title(less_than_pivot) + [pivot] + quick_sort_books_by_title(greater_than_pivot)
 
+
 def display_sorted_books_by_title(user):
     try:
         print("\n-- Sorted Books by Title in Ascending Order --\n")
         if is_admin(user) or user.role in ["librarian", "customer"]:
-            with shelve.open('book_management_db') as db:
-                booklist = list(db.get('books', {}).values())
+            books = []
 
-                sorted_books = quick_sort_books_by_title(booklist)
+            def collect_books_inorder(node):
+                if node:
+                    collect_books_inorder(node.left)
+                    books.append(node.book)
+                    collect_books_inorder(node.right)
 
-                headers = ["ISBN", "Title", "Publisher", "Language", "Number of Copies", "Availability", "Author", "Genre", "Points"]
-                table = []
+            collect_books_inorder(book_tree.root)
 
-                for book in sorted_books:
-                    table.append([
-                        book.get_isbn(),
-                        book.get_title(),
-                        book.get_publisher(),
-                        book.get_language(),
-                        book.get_noOfCopies(),
-                        book.get_availability(),
-                        book.get_author(),
-                        book.get_genre(),
-                        book.get_points_value()
-                    ])
+            sorted_books = quick_sort_books_by_title(books)
 
-                print(tabulate(table, headers, tablefmt="grid"))
-                logging.info(f"{user.username} sorted books by title in ascending order.")
+            headers = ["ISBN", "Title", "Publisher", "Language", "Number of Copies", "Availability", "Author", "Genre",
+                       "Points"]
+            table = []
+
+            for book in sorted_books:
+                table.append([
+                    book.get_isbn(), book.get_title(), book.get_publisher(), book.get_language(),
+                    book.get_noOfCopies(), book.get_availability(), book.get_author(), book.get_genre(),
+                    book.get_points_value()
+                ])
+
+            print(tabulate(table, headers, tablefmt="grid"))
+            logging.info(f"{user.username} sorted books by title in ascending order.")
         else:
             raise PermissionError("** Unauthorized access. **")
     except PermissionError as e:
         print(e)
+
 
 def merge_sort_books(books, key1, key2):
     if len(books) <= 1:
@@ -643,40 +1061,43 @@ def merge_sort_books(books, key1, key2):
 
     return sorted_books
 
+
 def display_sorted_books_by_language_and_isbn(user):
     try:
         print("\n-- Sorted Books by Language and ISBN in Ascending Order --\n")
         if is_admin(user) or user.role in ["librarian", "customer"]:
-            with shelve.open('book_management_db') as db:
-                booklist = list(db.get('books', {}).values())
+            books = []
 
-                sorted_books = merge_sort_books(booklist, 'get_language', 'get_isbn')
+            def collect_books_inorder(node):
+                if node:
+                    collect_books_inorder(node.left)
+                    books.append(node.book)
+                    collect_books_inorder(node.right)
 
-                headers = ["ISBN", "Title", "Publisher", "Language", "Number of Copies", "Availability", "Author",
-                           "Genre", "Points"]
-                table = []
+            collect_books_inorder(book_tree.root)
 
-                for book in sorted_books:
-                    table.append([
-                        book.get_isbn(),
-                        book.get_title(),
-                        book.get_publisher(),
-                        book.get_language(),
-                        book.get_noOfCopies(),
-                        book.get_availability(),
-                        book.get_author(),
-                        book.get_genre(),
-                        book.get_points_value()
-                    ])
+            sorted_books = merge_sort_books(books, 'get_language', 'get_isbn')
 
-                print(tabulate(table, headers, tablefmt="grid"))
-                logging.info(f"{user.username} sorted books by language and ISBN in ascending order.")
+            headers = ["ISBN", "Title", "Publisher", "Language", "Number of Copies", "Availability", "Author",
+                       "Genre", "Points"]
+            table = []
+
+            for book in sorted_books:
+                table.append([
+                    book.get_isbn(), book.get_title(), book.get_publisher(), book.get_language(),
+                    book.get_noOfCopies(), book.get_availability(), book.get_author(), book.get_genre(),
+                    book.get_points_value()
+                ])
+
+            print(tabulate(table, headers, tablefmt="grid"))
+            logging.info(f"{user.username} sorted books by language and ISBN in ascending order.")
         else:
             raise PermissionError("** Unauthorized access. **")
     except PermissionError as e:
         print(e)
 
-########################### 3A - 3D ###################################
+
+####################################### 3A - 3D #################################################
 
 class CustomerRequest:
     def __init__(self, customer_id, request_detail):
@@ -686,18 +1107,27 @@ class CustomerRequest:
     def __repr__(self):
         return f"CustomerRequest(customer_id={self.customer_id}, request_detail={self.request_detail})"
 
+
 class Queue:
     def __init__(self):
         self.queue = []
         self.load_queue()
 
     def load_queue(self):
-        with shelve.open('book_management_db') as db:
-            self.queue = db.get('customer_requests', [])
+        try:
+            with shelve.open('book_management_db') as db:
+                self.queue = db.get('customer_requests', [])
+        except IOError as ioe:
+            print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+            logging.error(f"An I/O error occurred while accessing the database: {ioe}")
 
     def save_queue(self):
-        with shelve.open('book_management_db') as db:
-            db['customer_requests'] = self.queue
+        try:
+            with shelve.open('book_management_db') as db:
+                db['customer_requests'] = self.queue
+        except IOError as ioe:
+            print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+            logging.error(f"An I/O error occurred while accessing the database: {ioe}")
 
     def is_empty(self):
         return len(self.queue) == 0
@@ -721,13 +1151,19 @@ class Queue:
     def size(self):
         return len(self.queue)
 
+
 def view_customer_details(user):
     if user.role != "librarian":
         print("** Unauthorized access. Only librarians can view customer details. **")
         return
 
-    with shelve.open('book_management_db') as db:
-        queue = db.get('customer_requests', [])
+    try:
+        with shelve.open('book_management_db') as db:
+            queue = db.get('customer_requests', [])
+    except IOError as ioe:
+        print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+        logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+        return  # Exit the function if there's an I/O error
 
     customer_requests = {}
     for request in queue:
@@ -747,11 +1183,14 @@ def view_customer_details(user):
 
     print(tabulate(table, headers, tablefmt="grid"))
 
+
+
 def sequential_search(queue, customer_id):
     for request in queue.queue:
         if request.customer_id == customer_id:
             return True
     return False
+
 
 def delete_customer_request_by_id(user):
     if user.role != "librarian":
@@ -760,37 +1199,43 @@ def delete_customer_request_by_id(user):
 
     customer_id = input("Enter the Customer ID for the request to delete: ")
 
-    with shelve.open('book_management_db', writeback=True) as db:
-        queue = db.get('customer_requests', [])
+    try:
+        with shelve.open('book_management_db', writeback=True) as db:
+            queue = db.get('customer_requests', [])
 
-        filtered_requests = [req for req in queue if req.customer_id == customer_id]
+            filtered_requests = [req for req in queue if req.customer_id == customer_id]
 
-        if not filtered_requests:
-            print("No requests found for this customer ID.")
-            return
+            if not filtered_requests:
+                print("No requests found for this customer ID.")
+                return
 
-        print("\nFound requests:")
-        for idx, req in enumerate(filtered_requests, start=1):
-            print(f"{idx}. {req.request_detail}")
+            print("\nFound requests:")
+            for idx, req in enumerate(filtered_requests, start=1):
+                print(f"{idx}. {req.request_detail}")
 
-        while True:
-            try:
-                delete_idx = int(input("Enter the number of the request to delete (or 0 to cancel): "))
-                if delete_idx == 0:
-                    print("-- Deletion cancelled. --")
+            while True:
+                try:
+                    delete_idx = int(input("Enter the number of the request to delete (or 0 to cancel): "))
+                    if delete_idx == 0:
+                        print("-- Deletion cancelled. --")
+                        break
+
+                    if delete_idx < 1 or delete_idx > len(filtered_requests):
+                        print("Invalid index. Please select a valid number from the list.")
+                        continue
+
+                    request_to_delete = filtered_requests[delete_idx - 1]
+                    queue.remove(request_to_delete)
+                    db['customer_requests'] = queue
+                    print("Request deleted successfully.")
                     break
+                except ValueError:
+                    print("Invalid input. Please enter a valid number.")
+    except IOError as ioe:
+        print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+        logging.error(f"An I/O error occurred while accessing the database: {ioe}")
 
-                if delete_idx < 1 or delete_idx > len(filtered_requests):
-                    print("Invalid index. Please select a valid number from the list.")
-                    continue
 
-                request_to_delete = filtered_requests[delete_idx - 1]
-                queue.remove(request_to_delete)
-                db['customer_requests'] = queue
-                print("Request deleted successfully.")
-                break
-            except ValueError:
-                print("Invalid input. Please enter a valid number.")
 
 def delete_all_customer_requests(user):
     if user.role != "librarian":
@@ -799,14 +1244,20 @@ def delete_all_customer_requests(user):
 
     confirmation = input("Are you sure you want to delete ALL customer requests? Type 'yes' to confirm: ").lower()
     if confirmation == 'yes':
-        with shelve.open('book_management_db', writeback=True) as db:
-            db['customer_requests'] = []
-            print("All customer requests have been successfully deleted.")
-            queue = Queue()
-            queue.queue.clear()
-            queue.save_queue()
+        try:
+            with shelve.open('book_management_db', writeback=True) as db:
+                db['customer_requests'] = []
+                print("All customer requests have been successfully deleted.")
+                queue = Queue()
+                queue.queue.clear()
+                queue.save_queue()
+        except IOError as ioe:
+            print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+            logging.error(f"An I/O error occurred while accessing the database: {ioe}")
     else:
         print("-- Deletion cancelled. --")
+
+
 
 def manage_customer_requests(user):
     if user.role != "librarian":
@@ -885,19 +1336,23 @@ def manage_customer_requests(user):
         else:
             print("\n** Invalid choice. Please try again. **")
 
+
 def validate_customer_id(customer_id):
-    with shelve.open('book_management_db') as db:
-        users = db.get('users', [])
-        return any(user.customer_id == customer_id for user in users if hasattr(user, 'customer_id'))
+    try:
+        with shelve.open('book_management_db') as db:
+            users = db.get('users', [])
+            return any(user.customer_id == customer_id for user in users if hasattr(user, 'customer_id'))
+    except IOError as ioe:
+        print(f"\n** An I/O error occurred while accessing the database: {ioe} **")
+        logging.error(f"An I/O error occurred while accessing the database: {ioe}")
+        return False  # Return False if there's an I/O error
+
+
 
 ########################### END OF 3A - 3D ###################################
 
 
-
-
 ########################### TEST PROGRAM ###################################
-
-
 
 
 while True:
@@ -938,10 +1393,11 @@ while True:
                           "Input 10 to reset user password \n"
                           "Input 11 to delete a user \n"
                           "Input 12 to delete all users \n"
-                          "Input 13 to log out \n"
+                          "Input 13 to undo last operation \n"
+                          "Input 14 to log out \n"
                           )
                     typeInput = input("\nEnter your input: ")
-                    if typeInput not in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"]:
+                    if typeInput not in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"]:
                         print("Invalid input. Please try again.")
                         continue
                     if typeInput == "1":
@@ -983,7 +1439,8 @@ while True:
                             add_new_book(user, isbn, title, publisher, language, noOfCopies, availability, author,
                                          genre)
                         except ValueError:
-                            print("\n** Invalid input. Please enter a valid number for ISBN and/or number of copies. **")
+                            print(
+                                "\n** Invalid input. Please enter a valid number for ISBN and/or number of copies. **")
 
                     elif typeInput == "3":
                         try:
@@ -1029,6 +1486,9 @@ while True:
                         delete_all_users(user)
 
                     elif typeInput == "13":
+                        undo_last_operation(user)
+
+                    elif typeInput == "14":
                         print("Logged Out")
                         user = None
                         break
@@ -1044,10 +1504,11 @@ while True:
                           "Input 7 to sort books by Title \n"
                           "Input 8 to sort books by Language and then ISBN Num \n"
                           "Input 9 to manage customer requests \n"
-                          "Input 10 to log out \n"
+                          "Input 10 to undo last operation \n"
+                          "Input 11 to log out \n"
                           )
                     typeInput = input("\nEnter your input: ")
-                    if typeInput not in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]:
+                    if typeInput not in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]:
                         print("Invalid input. Please try again.")
                         continue
                     if typeInput == "1":
@@ -1074,7 +1535,8 @@ while True:
                                 continue
                             while noOfCopies < 0:
                                 noOfCopies = int(input("Enter number of copies (value more 0 or more): "))
-                            availability = input("Enter availability (Y/N) or type 'B' to go back to main menu: ").upper() == "Y"
+                            availability = input(
+                                "Enter availability (Y/N) or type 'B' to go back to main menu: ").upper() == "Y"
                             if availability == 'B':
                                 continue
                             author = input("Enter author or type 'B' to go back to main menu: ")
@@ -1086,7 +1548,8 @@ while True:
                             add_new_book(user, isbn, title, publisher, language, noOfCopies, availability, author,
                                          genre)
                         except ValueError:
-                            print("\n** Invalid input. Please enter a valid number for ISBN and/or number of copies. **")
+                            print(
+                                "\n** Invalid input. Please enter a valid number for ISBN and/or number of copies. **")
 
                     elif typeInput == "3":
                         try:
@@ -1117,6 +1580,8 @@ while True:
                     elif typeInput == "9":
                         manage_customer_requests(user)
                     elif typeInput == "10":
+                        undo_last_operation(user)
+                    elif typeInput == "11":
                         print("Logged Out")
                         user = None
                         break
@@ -1141,7 +1606,8 @@ while True:
 
                     elif typeInput == "2":
                         print("\n-- Search a book record --\n")
-                        search_title = input("Enter the title of the book you want to search for or type 'B' to go back to main menu: ")
+                        search_title = input(
+                            "Enter the title of the book you want to search for or type 'B' to go back to main menu: ")
                         if search_title == 'B':
                             continue
                         search_book_by_title(user, search_title)
@@ -1160,7 +1626,8 @@ while True:
 
                     elif typeInput == "7":
                         try:
-                            isbn = int(input("Enter the ISBN of the book you want to borrow or type '-1' to go back to main menu: "))
+                            isbn = int(input(
+                                "Enter the ISBN of the book you want to borrow or type '-1' to go back to main menu: "))
                             if isbn == -1:
                                 continue
                             else:
@@ -1187,3 +1654,4 @@ while True:
         break
     else:
         print("Invalid input. Please try again.")
+

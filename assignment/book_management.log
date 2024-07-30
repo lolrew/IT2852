@@ -333,3 +333,25 @@
 2024-06-29 12:03:44,858 - INFO - admin viewed all books.
 2024-06-29 12:27:07,440 - INFO - admin viewed all books.
 2024-07-03 09:34:44,328 - INFO - librarian sorted books by language and ISBN in ascending order.
+2024-07-03 10:08:30,981 - INFO - customer viewed all books.
+2024-07-09 16:30:58,854 - INFO - librarian viewed all books.
+2024-07-10 09:19:30,621 - INFO - librarian sorted books by number of copies in descending order.
+2024-07-10 09:20:37,631 - INFO - librarian viewed all books.
+2024-07-10 09:20:56,861 - INFO - librarian deleted book with ISBN: 90.
+2024-07-10 09:21:10,097 - INFO - librarian viewed all books.
+2024-07-10 09:21:38,774 - INFO - librarian deleted book with ISBN: 90.
+2024-07-10 09:21:39,587 - INFO - librarian viewed all books.
+2024-07-10 09:21:55,494 - INFO - librarian viewed all books.
+2024-07-30 21:20:10,318 - INFO - ka hui sorted books by language and ISBN in ascending order.
+2024-07-30 21:25:32,020 - INFO - Admin ka hui deleted user 'ka hui'.
+2024-07-30 21:30:23,046 - INFO - Admin admin deleted user 'darrell'.
+2024-07-30 21:51:17,876 - INFO - Admin admin deleted all user accounts.
+2024-07-30 21:55:52,766 - INFO - admin viewed all books.
+2024-07-30 21:56:52,875 - INFO - admin updated book with ISBN: 12.
+2024-07-30 21:56:57,726 - INFO - admin viewed all books.
+2024-07-30 21:57:18,358 - INFO - admin viewed all books.
+2024-07-30 22:00:57,978 - INFO - Password for user 'darrell' was reset by the admin.
+2024-07-30 22:09:41,535 - INFO - librarian viewed all books.
+2024-07-30 22:09:52,210 - INFO - librarian viewed all books.
+2024-07-30 22:26:13,700 - INFO - admin viewed all books.
+2024-07-30 22:27:56,394 - INFO - Password for user 'irene' was reset by the admin.
