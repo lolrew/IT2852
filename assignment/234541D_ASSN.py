@@ -4,18 +4,19 @@
 # Tutorial Group: IT2852
 
 # additional features
-# admin view all users
-# admin can reset user password
-# admin can delete a user or all users
-# librarian can view all customers requests and other details
-# librarian can delete each customer request or delete all customer requests
-# customers can earn points by borrowing books and based on their points, their tier will increase (Tier A, B, C)
-# customers can view cafe menu
-# customer can order food and drinks from the cafe using their points
-# customer email validation
-# customerID is using randomized method and generates a unique customerID
-# Stack algorithm to undo last action. By pushing each operation onto a stack, you can easily undo the last action.
-# Trees to replace the current list or dictionary used for storing books with a Binary Search Tree (BST) for efficient search, insertion, and deletion operations.
+    # 1. admin view all users
+    # 2. admin can reset user password
+    # 3. admin can delete a user or all users
+    # 4. librarian can view all customers requests and other details
+    # 5. librarian can add customers requests
+    # 6. librarian can delete each customer request or delete all customer requests
+    # 7. customers can earn points by borrowing books and based on their points, their tier will increase (Tier A, B, C)
+    # 8. customers can view cafe menu
+    # 9. customer can order food and drinks from the cafe using their points
+    # 10. customer email validation
+    # 11. customerID is using randomized method and generates a unique customerID
+    # 12. Stack algorithm to undo last action. By pushing each operation onto a stack, you can easily undo the last action.
+    # 13. Trees to replace the current list or dictionary used for storing books with a Binary Search Tree (BST) for efficient search, insertion, and deletion operations.
 
 
 import logging
@@ -258,6 +259,9 @@ def initialize_users():
         return list(db['users'])
 
 
+
+################################# CAFE SECTION ###########################################
+
 # Initialize shelve for storing user and book data
 with shelve.open('book_management_db') as db:
     if 'books' not in db:  # Use 'books' for consistency
@@ -278,7 +282,6 @@ with shelve.open('book_management_db') as db:
 for isbn, book in booklist.items():
     book_tree.insert(book)
 
-################################# CAFE SECTION ###########################################
 
 def display_cafe_menu():
     print("\n-- Cafe Menu --\n")
@@ -1107,7 +1110,7 @@ class CustomerRequest:
     def __repr__(self):
         return f"CustomerRequest(customer_id={self.customer_id}, request_detail={self.request_detail})"
 
-
+################################# START QUEUE ##################################################
 class Queue:
     def __init__(self):
         self.queue = []
@@ -1150,6 +1153,8 @@ class Queue:
 
     def size(self):
         return len(self.queue)
+
+#################################### END QUEUE ###################################################
 
 
 def view_customer_details(user):

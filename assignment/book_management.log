@@ -355,3 +355,8 @@
 2024-07-30 22:09:52,210 - INFO - librarian viewed all books.
 2024-07-30 22:26:13,700 - INFO - admin viewed all books.
 2024-07-30 22:27:56,394 - INFO - Password for user 'irene' was reset by the admin.
+2024-08-06 19:51:46,173 - INFO - Password for user 'irene' was reset by the admin.
+2024-08-06 19:53:30,305 - INFO - Admin irene deleted user 'irene'.
+2024-08-06 21:31:16,030 - ERROR - An error occurred during undo: list.remove(x): x not in list
+2024-08-06 21:57:58,272 - INFO - customer viewed all books.
+2024-08-06 21:58:08,280 - INFO - customer viewed all books.
